@@ -1,4 +1,4 @@
-var g = {
+var source = {
   "update_id": 498276656,
   "message": {
     "message_id": 367,
@@ -47,3 +47,66 @@ var g = {
     "caption": "不處理"
   }
 }
+
+
+var amis7 = {
+  "and": [
+    {
+      'targer': ["message", "forward_from"],
+      'value': '',
+      'only_exist': true,
+      'use_re': false
+    },
+  ],
+  "or": [{
+    'targer': ["message", "chat", "id"],
+    'value': 207014603,
+    'only_exist': false,
+    'use_re': false
+  }, {
+    'targer': ["message", "chat", "id"],
+    'value': -1001097080770,
+    'only_exist': false,
+    'use_re': false
+  },],
+  "not": {
+    "and": {
+      'targer': ["message", "caption"],
+      'value': '不處理',
+      'only_exist': false,
+      'use_re': false
+    },
+    "or": ''
+  },
+}
+
+function check_parameter(par){
+  //這裡確認 targer value... 都在
+}
+
+function match(amis: any, source: any): any {
+  var and = amis['and']
+  var or = amis['or']
+  var not = amis['not']
+  if (and === undefined && or === undefined) {
+    throw "and 跟 or 最少要給一個";
+  }
+
+  var and_list = []
+  var or_list = []
+  var not_list = []
+  if (and === undefined) {
+    and_list = [true]
+  }else{
+    check_parameter(and)
+    //這裡寫分析
+
+  }
+  if (or === undefined) {
+    and_list = [true]
+  }
+
+}
+
+
+match(amis7, source)

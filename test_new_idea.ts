@@ -1,4 +1,4 @@
-import { match } from '../match'
+import { match } from './match'
 
 
 var i = 0
