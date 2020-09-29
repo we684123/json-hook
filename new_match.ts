@@ -48,7 +48,7 @@ var source = {
   }
 }
 
-
+match(aims7, source)
 var aims7 = {
   "and": [{
     'targer': ["message", "forward_from"],
@@ -58,65 +58,79 @@ var aims7 = {
   },],
   "or": [{
     'targer': ["message", "chat", "id"],
-    'value': 207014603,
+    'value': '207014603',
     'only_exist': false,
     'use_re': false
   }, {
     'targer': ["message", "chat", "id"],
-    'value': -1001097080770,
+    'value': '-1001097080770',
     'only_exist': false,
     'use_re': false
   },],
   "not": {
-    "and": {
+    "and": [{
       'targer': ["message", "caption"],
       'value': '不處理',
       'only_exist': false,
       'use_re': false
-    },
-    "or": ''
+    }],
+    "or": []
   },
 }
 
 // ====================================================================
-function match_par(amis: object[], source: object): boolean {
-  console.log(`amis = ${amis}`);
+// let aims_par = or[0]
+function match_par(aims_par: any, source: object): boolean[] {
+  // console.log(`aims_par = ${aims_par}`);
   // console.log(`source = ${source}`);
 
-  for (const iterator of amis) {
+  let result = []
+  // var iterator = aims_par[1]
+  for (const iterator of aims_par) {
     // console.log(`iterator = ${iterator}`);
     let yn = source
-    for (let i = 0; i < iterator['targer'].length; i++) {
-      // console.log(`i = ${i}`);
-      yn = yn[iterator['targer'][i]]
-      // console.log(`yn = ${yn}`);
-      if (yn == undefined) {
-        return false
-      }
-      if ((i + 1) == iterator['targer'].length) { // targer的最後一個
-        // console.log("(i + 1) == iterator['targer'].length")
-        if (!iterator['only_exist']) { // only_exist = false
-          // console.log(`iterator['value'] = ${iterator['value']}`);
-          if (iterator['use_re']) {
-            // console.log(`iterator['use_re'] = ${String(iterator['use_re'])}`);
-            // console.log(`iterator['value'] = ${String(iterator['value'])}`);
-            let regex = RegExp(String(iterator['value']), 'g')
-            return !!String(yn).match(regex)
-          } else {
-            if (yn != iterator['value']) { // 最後解出來了值不等於指定值
-              // console.log("yn != iterator['value']");
-              return false
-            }
-          }
+    var rt = match_iterator(iterator, yn)
+    result.push(rt)
+  }
+  // console.log("外層");
+  return result
+}
+// ====================================================================
+function match_iterator(iterator: any, yn: any): any {
+  for (let i = 0; i < iterator['targer'].length; i++) {
+    // var i = 0
+    // var i = 1
+    // var i = 2
+    // console.log(`i = ${i}`);
+    yn = yn[iterator['targer'][i]]
+    // console.log(`yn = ${yn}`);
+    if (yn == undefined) {
+      return false
+    }
+    if ((i + 1) == iterator['targer'].length) { // targer的最後一個
+      // console.log("(i + 1) == iterator['targer'].length")
+      if (!iterator['only_exist']) { // only_exist = false
+        // console.log(`iterator['value'] = ${iterator['value']}`);
+        if (iterator['use_re']) {
+          // console.log(`iterator['use_re'] = ${String(iterator['use_re'])}`);
+          // console.log(`iterator['value'] = ${String(iterator['value'])}`);
+          let regex = RegExp(String(iterator['value']), 'g')
+          return !!String(yn).match(regex)
+        } else {
+          // console.log(yn != iterator['value']);
+          return yn == iterator['value']
+          // if (yn == iterator['value']) { // 最後解出來了值不等於指定值
+          //   console.log("yn != iterator['value']");
+          //   return false
+          // }
         }
       }
     }
   }
-  // console.log("外層");
   return true
 }
 // ====================================================================
-function check_parameter(par:object[], from:string) {
+function check_parameter(par: any, from: string) {
   //這裡確認 targer value... 都在
   for (var i = 0; i < par.length; i++) {
     // i = 0
@@ -137,11 +151,12 @@ function check_parameter(par:object[], from:string) {
 
 }
 // ====================================================================
+var aims = aims7
 function match(aims: any, source: object): boolean {
   var and = aims['and']
   var or = aims['or']
   var not_and = aims ?.not ?.and
-  var not_or = aims ?.or ?.and
+  var not_or = aims ?.not ?.or
   if (and === undefined && or === undefined) {
     throw "'and' and 'or' at least give one.";
   }
@@ -155,25 +170,25 @@ function match(aims: any, source: object): boolean {
     and_list = [true]
   } else {
     check_parameter(and, 'and')
-    and_list.push(match_par(aims, source))
+    and_list = match_par(and, source)
   }
   if (or === undefined) {
     or_list = [true]
   } else {
     check_parameter(or, 'or')
-    or_list.push(match_par(aims, source))
+    or_list = match_par(or, source)
   }
-  if (and === undefined) {
+  if (not_and === undefined) {
     not_and_list = [true]
   } else {
     check_parameter(not_and, 'not_and')
-    not_and_list.push(!match_par(aims, source))
+    not_and_list = match_par(not_and, source).map(x => !x);
   }
-  if (and === undefined) {
+  if (not_or === undefined || JSON.stringify(not_or) == JSON.stringify([])) {
     not_or_list = [true]
   } else {
     check_parameter(not_or, 'not_or')
-    not_or_list.push(!match_par(aims, source))
+    not_or_list = match_par(not_or, source).map(x => !x);
   }
 
   var and_list_result = and_list.every(function(item) {
@@ -211,4 +226,5 @@ arr.every(function(item) {
 
 match(aims7, source)
 
-match_par(amis, source)
+var fg = aims7['or']
+match_par(fg, source)
