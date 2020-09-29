@@ -1,0 +1,25 @@
+{
+  "name": "@we684123/json-hook",
+  "version": "0.1.0",
+  "description": "一個分析 json 內容符不符合條件，符合的話就呼叫對應 function 的 hook ",
+  "main": "hook.js",
+  "scripts": {
+    "test": "deno run ./unit_test/unit_test_match.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/we684123/json-hook.git"
+  },
+  "keywords": [
+    "json",
+    "hook",
+    "condition",
+    "trigger"
+  ],
+  "author": "we684123",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/we684123/json-hook/issues"
+  },
+  "homepage": "https://github.com/we684123/json-hook#readme"
+}
