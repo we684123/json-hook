@@ -44,11 +44,11 @@ var source = {
       "width": 1280,
       "height": 720
     }],
-    "caption": "不處理"
+    "caption": "不處理k"
   }
 }
 
-match(aims7, source)
+// match(aims7, source)
 var aims7 = {
   "and": [{
     'targer': ["message", "forward_from"],
@@ -148,10 +148,9 @@ function check_parameter(par: any, from: string) {
       throw `${from} ${i} use_re is miss`
     }
   }
-
 }
 // ====================================================================
-var aims = aims7
+// var aims = aims7
 function match(aims: any, source: object): boolean {
   var and = aims['and']
   var or = aims['or']
@@ -194,13 +193,13 @@ function match(aims: any, source: object): boolean {
   var and_list_result = and_list.every(function(item) {
     return item === true
   });
-  var or_list_result = or_list.every(function(item) {
+  var or_list_result = or_list.some(function(item) {
     return item === true
   });
   var not_and_list_result = not_and_list.every(function(item) {
     return item === true
   });
-  var not_or_list_result = not_or_list.every(function(item) {
+  var not_or_list_result = not_or_list.some(function(item) {
     return item === true
   });
   var last_result = [
