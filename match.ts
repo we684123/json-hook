@@ -1,3 +1,8 @@
+/**
+ * @description 確認格式正確用，不會回傳任何值
+ * @param  {any} par
+ * @param  {string} from
+ */
 export function check_parameter(par: any, from: string) {
   //這裡確認 targer value... 都在
   for (var i = 0; i < par.length; i++) {
@@ -19,7 +24,15 @@ export function check_parameter(par: any, from: string) {
 }
 // ====================================================================
 // let aims_par = or[0]
-export function match_par(aims_par: any, source: object): boolean[] {
+/**
+ * @param  {any} aims_par
+ * @param  {object} source
+ * @param  {boolean} strict_equality  if trun , use === , if false, use ==
+ * @returns {boolean}
+ */
+export function match_par(
+  aims_par: any, source: object, strict_equality?: boolean
+): boolean[] {
   // console.log(`aims_par = ${aims_par}`);
   // console.log(`source = ${source}`);
 
@@ -28,14 +41,22 @@ export function match_par(aims_par: any, source: object): boolean[] {
   for (const iterator of aims_par) {
     // console.log(`iterator = ${iterator}`);
     let yn = source
-    var rt = match_iterator(iterator, yn)
+    var rt = match_iterator(iterator, yn, strict_equality)
     result.push(rt)
   }
   // console.log("外層");
   return result
 }
 // ====================================================================
-export function match_iterator(iterator: any, yn: any): any {
+/**
+ * @param  {any} iterator
+ * @param  {any} yn
+ * @param  {boolean} strict_equality if trun , use === , if false, use ==
+ * @returns {boolean}
+ */
+export function match_iterator(
+  iterator: any, yn: any, strict_equality?: boolean
+): boolean {
   for (let i = 0; i < iterator['targer'].length; i++) {
     // var i = 0
     // var i = 1
@@ -56,12 +77,13 @@ export function match_iterator(iterator: any, yn: any): any {
           let regex = RegExp(String(iterator['value']), 'g')
           return !!String(yn).match(regex)
         } else {
-          // console.log(yn != iterator['value']);
-          return yn == iterator['value']
-          // if (yn == iterator['value']) { // 最後解出來了值不等於指定值
-          //   console.log("yn != iterator['value']");
-          //   return false
-          // }
+          if (strict_equality) {
+            // console.log(yn === iterator['value']);
+            return yn === iterator['value']
+          } else {
+            // console.log(yn == iterator['value']);
+            return yn == iterator['value']
+          }
         }
       }
     }
@@ -69,11 +91,20 @@ export function match_iterator(iterator: any, yn: any): any {
   return true
 }
 // ====================================================================
-export function match(aims: any, source: object): boolean {
+/**
+ * @description 比對看看符不符合規則，符合就執行 function
+ * @param  {any} aims match json
+ * @param  {object} source source json
+ * @param  {boolean} strict_equality  if trun , use === , if false, use ==
+ * @returns {boolean}
+ */
+export function match(
+  aims: any, source: object, strict_equality?: boolean
+): boolean {
   var and = aims['and']
   var or = aims['or']
-  var not_and = aims ?.not ?.and
-  var not_or = aims ?.not ?.or
+  var not_and = aims?.not?.and
+  var not_or = aims?.not?.or
   if (and === undefined && or === undefined) {
     throw "'and' and 'or' at least give one.";
   }
@@ -87,37 +118,37 @@ export function match(aims: any, source: object): boolean {
     and_list = [true]
   } else {
     check_parameter(and, 'and')
-    and_list = match_par(and, source)
+    and_list = match_par(and, source, strict_equality)
   }
   if (or === undefined) {
     or_list = [true]
   } else {
     check_parameter(or, 'or')
-    or_list = match_par(or, source)
+    or_list = match_par(or, source, strict_equality)
   }
   if (not_and === undefined) {
     not_and_list = [true]
   } else {
     check_parameter(not_and, 'not_and')
-    not_and_list = match_par(not_and, source).map(x => !x);
+    not_and_list = match_par(not_and, source, strict_equality).map(x => !x);
   }
   if (not_or === undefined || JSON.stringify(not_or) == JSON.stringify([])) {
     not_or_list = [true]
   } else {
     check_parameter(not_or, 'not_or')
-    not_or_list = match_par(not_or, source).map(x => !x);
+    not_or_list = match_par(not_or, source, strict_equality).map(x => !x);
   }
 
-  var and_list_result = and_list.every(function(item) {
+  var and_list_result = and_list.every(function (item) {
     return item === true
   });
-  var or_list_result = or_list.some(function(item) {
+  var or_list_result = or_list.some(function (item) {
     return item === true
   });
-  var not_and_list_result = not_and_list.every(function(item) {
+  var not_and_list_result = not_and_list.every(function (item) {
     return item === true
   });
-  var not_or_list_result = not_or_list.some(function(item) {
+  var not_or_list_result = not_or_list.some(function (item) {
     return item === true
   });
   var last_result = [
@@ -127,7 +158,7 @@ export function match(aims: any, source: object): boolean {
     not_or_list_result
   ]
 
-  return last_result.every(function(item) {
+  return last_result.every(function (item) {
     return item === true
   });
 }

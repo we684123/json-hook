@@ -18,12 +18,10 @@ var hook = /** @class */ (function () {
             console.log(value);
         }
     };
-    // public macth_run(e: object, bots: any): void {
-    hook.prototype.macth_run = function (e) {
+    hook.prototype.macth_run = function (e, strict_equality) {
         for (var _i = 0, _a = this.hooks; _i < _a.length; _i++) {
             var _b = _a[_i], hook_situation = _b[0], hook_function = _b[1];
-            // @ts-ignore
-            if (match_1.match(hook_situation, e)) { // 條件符合，執行!
+            if (match_1.match(hook_situation, e, strict_equality)) { // 條件符合，執行!
                 hook_function.call(null, e);
             }
         }
