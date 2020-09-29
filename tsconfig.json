@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "es3",
+        "module": "commonjs",
+        "strict": true,
+        "esModuleInterop": true,
+        "declaration": true,
+        "sourceMap":true,
+        "declarationMap":true,
+    },
+    "include":["./hook.ts","./match.ts"]
+}
