@@ -6,9 +6,18 @@ var hook = /** @class */ (function () {
     function hook() {
         this.hooks = [];
     }
+    /**
+     * @param  {any} hook_situation 綁定的觸發條件
+     * @param  {object} hook_function 滿足觸發條件後要執行的函式
+     * @returns void
+     */
     hook.prototype.addHook = function (hook_situation, hook_function) {
         this.hooks.push([hook_situation, hook_function]);
     };
+    /**
+     * @description 列出以綁定的條件及函式
+     * @returns {void}
+     */
     hook.prototype.list = function () {
         var hookList = this.hooks;
         console.log(hookList);
@@ -18,6 +27,12 @@ var hook = /** @class */ (function () {
             console.log(value);
         }
     };
+    /**
+     * @param  {object} source 要被 '觸發條件json' 比對的 '事件json'
+     * @param  {any} incoming? 要被傳入 '觸發函式' 的東西，可有可無
+     * @param  {boolean} strict_equality? 是否要啟動嚴格比對(全等於)
+     * @returns void
+     */
     hook.prototype.macth_run = function (source, incoming, strict_equality) {
         for (var _i = 0, _a = this.hooks; _i < _a.length; _i++) {
             var _b = _a[_i], hook_situation = _b[0], hook_function = _b[1];
@@ -29,38 +44,4 @@ var hook = /** @class */ (function () {
     return hook;
 }());
 exports.hook = hook;
-// let plugin = new core()
-//
-// plugin.run()
-//
-// plugin.addHook('after_run', function() {
-//   console.log('an other greeting~')
-// })
-//
-// plugin.run()
-// let situation = [
-//   {
-//     'targer': ["message", "chat", "id"],
-//     'value': 207014603,
-//     'only_exist': true,
-//     'use_re': false
-//   }, {
-//     'targer': ["message", "text"],
-//     'value': '^(！|!)?ping$',
-//     'only_exist': false,
-//     'use_re': false
-//   }
-// ]
-//
-// async function handler(bots: any, e: any) {
-//   console.log("this is ping");
-//   let tgbot = bots.tgbot
-//   let ed = tgbot.sendMessage(e['message']['chat']['id'], 'pong')
-//   tgbot.deleteMessage(ed['chat_id'], ed['message_id'])
-// }
-//
-// plugin.addHook(situation, handler)
-// plugin.list()
-// plugin.run_all()
-// 030...
 //# sourceMappingURL=hook.js.map

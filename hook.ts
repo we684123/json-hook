@@ -5,11 +5,18 @@ export class hook {
   constructor() {
     this.hooks = []
   }
-
+  /**
+   * @param  {any} hook_situation 綁定的觸發條件
+   * @param  {object} hook_function 滿足觸發條件後要執行的函式
+   * @returns void
+   */
   public addHook(hook_situation: any, hook_function: object): void {
     this.hooks.push([hook_situation, hook_function])
   }
-
+  /**
+   * @description 列出以綁定的條件及函式
+   * @returns {void}
+   */
   public list(): void {
     let hookList = this.hooks
     console.log(hookList)
@@ -18,8 +25,13 @@ export class hook {
       console.log(value);
     }
   }
-
-  public macth_run(source: object ,incoming?: object, strict_equality?: boolean): void {
+  /**
+   * @param  {object} source 要被 '觸發條件json' 比對的 '事件json'
+   * @param  {any} incoming? 要被傳入 '觸發函式' 的東西，可有可無
+   * @param  {boolean} strict_equality? 是否要啟動嚴格比對(全等於)
+   * @returns void
+   */
+  public macth_run(source: object, incoming?: any, strict_equality?: boolean): void {
     for (let [hook_situation, hook_function] of this.hooks) {
       if (match(hook_situation, source, strict_equality)) { // 條件符合，執行!
         hook_function.call(null, incoming)
@@ -28,44 +40,3 @@ export class hook {
   }
 
 }
-
-
-
-// let plugin = new core()
-//
-// plugin.run()
-//
-// plugin.addHook('after_run', function() {
-//   console.log('an other greeting~')
-// })
-//
-// plugin.run()
-
-
-// let situation = [
-//   {
-//     'targer': ["message", "chat", "id"],
-//     'value': 207014603,
-//     'only_exist': true,
-//     'use_re': false
-//   }, {
-//     'targer': ["message", "text"],
-//     'value': '^(！|!)?ping$',
-//     'only_exist': false,
-//     'use_re': false
-//   }
-// ]
-//
-// async function handler(bots: any, e: any) {
-//   console.log("this is ping");
-//   let tgbot = bots.tgbot
-//   let ed = tgbot.sendMessage(e['message']['chat']['id'], 'pong')
-//   tgbot.deleteMessage(ed['chat_id'], ed['message_id'])
-// }
-//
-// plugin.addHook(situation, handler)
-// plugin.list()
-// plugin.run_all()
-
-
-// 030...
