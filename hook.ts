@@ -19,9 +19,7 @@ export class hook {
     }
   }
 
-  // public macth_run(e: object, bots: any): void {
   public macth_run(e: object): void {
-
     for (let [hook_situation, hook_function] of this.hooks) {
       // @ts-ignore
       if (match(hook_situation, e)) { // 條件符合，執行!
