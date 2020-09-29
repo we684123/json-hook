@@ -19,10 +19,10 @@ export class hook {
     }
   }
 
-  public macth_run(e: object, strict_equality?: boolean): void {
+  public macth_run(source: object ,incoming?: object, strict_equality?: boolean): void {
     for (let [hook_situation, hook_function] of this.hooks) {
-      if (match(hook_situation, e, strict_equality)) { // 條件符合，執行!
-        hook_function.call(null, e)
+      if (match(hook_situation, source, strict_equality)) { // 條件符合，執行!
+        hook_function.call(null, incoming)
       }
     }
   }

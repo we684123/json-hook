@@ -18,11 +18,11 @@ var hook = /** @class */ (function () {
             console.log(value);
         }
     };
-    hook.prototype.macth_run = function (e, strict_equality) {
+    hook.prototype.macth_run = function (source, incoming, strict_equality) {
         for (var _i = 0, _a = this.hooks; _i < _a.length; _i++) {
             var _b = _a[_i], hook_situation = _b[0], hook_function = _b[1];
-            if (match_1.match(hook_situation, e, strict_equality)) { // 條件符合，執行!
-                hook_function.call(null, e);
+            if (match_1.match(hook_situation, source, strict_equality)) { // 條件符合，執行!
+                hook_function.call(null, incoming);
             }
         }
     };
