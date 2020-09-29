@@ -1,7 +1,10 @@
-// @ts-ignore
-import { match } from '../bot/functions/match.ts'
+// this test is use Deno !
 
-let source = {
+// @ts-ignore
+import { match } from './match.ts'
+
+let i = 0
+var source = {
   "update_id": 910469164,
   "message": {
     "message_id": 64609,
@@ -24,156 +27,154 @@ let source = {
     "text": "🔭 訊息狀態"
   }
 }
-// console.log(true == true);
-// console.log(true == false);
-// console.log(false == false);
-let i = 0
 
-let amis = [
+
+
+var amis = {"and":[
   {
     'targer': ["update_id"],
     'value': '123',
     'only_exist': true,
     'use_re': true
   }
-]
+]}
 i++
 console.log(`\n${i}`);
 console.log(match(amis, source) == true)
 // -----------------------------------------
-amis = [
+amis = {"and":[
   {
     'targer': ["update_id"],
     'value': '123',
     'only_exist': true,
     'use_re': false
   }
-]
+]}
 i++
 console.log(`\n${i}`);
 console.log(match(amis, source) == true)
 // -----------------------------------------
-amis = [
+amis = {"and":[
   {
     'targer': ["update_id"],
     'value': '123',
     'only_exist': false,
     'use_re': false
   }
-]
+]}
 i++
 console.log(`\n${i}`);
 console.log(match(amis, source) == false)
 // -----------------------------------------
-amis = [
+amis = {"and":[
   {
     'targer': ["update_id"],
     'value': '123',
     'only_exist': false,
     'use_re': true
   }
-]
+]}
 i++
 console.log(`\n${i}`);
 console.log(match(amis, source) == false)
 // -----------------------------------------
-let amis2 = [
+var amis2 = {"and":[
   {
     'targer': ["update_id"],
     'value': 123,
     'only_exist': false,
     'use_re': true
   }
-]
+]}
 i++
 console.log(`\n${i}`);
 console.log(match(amis2, source) == false)
 // -----------------------------------------
-amis2 = [
+amis2 = {"and":[
   {
     'targer': ["update_id"],
     'value': 123,
     'only_exist': false,
     'use_re': false
   }
-]
+]}
 i++
 console.log(`\n${i}`);
 console.log(match(amis2, source) == false)
 // -----------------------------------------
-amis2 = [
+amis2 = {"and":[
   {
     'targer': ["update_id"],
     'value': 910469164,
     'only_exist': false,
     'use_re': false
   }
-]
+]}
 i++
 console.log(`\n${i}`);
 console.log(match(amis2, source) == true)
 // -----------------------------------------
-amis2 = [
+amis2 = {"and":[
   {
     'targer': ["update_id"],
     'value': 910469164,
     'only_exist': false,
     'use_re': true
   }
-]
+]}
 i++
 console.log(`\n${i}`);
 console.log(match(amis2, source) == true)
 // -----------------------------------------
-amis2 = [
+amis2 = {"and":[
   {
     'targer': ["update_id"],
     'value': 910469164753,
     'only_exist': false,
     'use_re': true
   }
-]
+]}
 i++
 console.log(`\n${i}`);
 console.log(match(amis2, source) == false)
 // -----------------------------------------
-amis = [
+amis = {"and":[
   {
     'targer': ["update_id"],
     'value': '910469164',
     'only_exist': false,
     'use_re': true
   }
-]
+]}
 i++
 console.log(`\n${i}`);
 console.log(match(amis, source) == true)
 // -----------------------------------------
-amis = [
+amis = {"and":[
   {
     'targer': ["update_id"],
     'value': '^910469164$',
     'only_exist': false,
     'use_re': true
   }
-]
+]}
 i++
 console.log(`\n${i}`);
 console.log(match(amis, source) == true)
 // -----------------------------------------
-amis = [
+amis = {"and":[
   {
     'targer': ["update_id"],
     'value': '104691',
     'only_exist': false,
     'use_re': true
   }
-]
+]}
 i++
 console.log(`\n${i}`);
 console.log(match(amis, source) == true)
 // -----------------------------------------
-let amis3 = [
+let amis3 = {"and":[
   {
     'targer': ["update_id"],
     'value': '104691',
@@ -185,12 +186,12 @@ let amis3 = [
     'only_exist': false,
     'use_re': false
   },
-]
+]}
 i++
 console.log(`\n${i}`);
 console.log(match(amis3, source) == true)
 // -----------------------------------------
-let amis4 = [
+let amis4 = {"and":[
   {
     'targer': ["update_id"],
     'value': '104691',
@@ -207,7 +208,7 @@ let amis4 = [
     'only_exist': false,
     'use_re': false
   },
-]
+]}
 i++
 console.log(`\n${i}`);
 console.log(match(amis4, source) == true)
