@@ -19,7 +19,7 @@
 打開 gs 編輯頁面  
 -> "資源"  
 -> "程式庫"  
--> 將 `1` 貼上輸入框  
+-> 將 `1lfFZa5p7bjHeYIQ0iFwKaE5HnS3ypK2vRVuZaonnXTQLzc0dZBcgeepO` 貼上輸入框  
 -> "新增"  
 -> 選擇最後版本(記得阿 不然儲存不了)  
 -> "儲存"~    
@@ -27,7 +27,7 @@
 Open Script Editor.  
 -> Resource  
 -> Library  
--> Paste Script ID `1` to box  
+-> Paste Script ID `1lfFZa5p7bjHeYIQ0iFwKaE5HnS3ypK2vRVuZaonnXTQLzc0dZBcgeepO` to box  
 -> Add library  
 -> select lastest version and save    
 
@@ -35,10 +35,28 @@ Open Script Editor.
 
 ## 使用 use
 
+### import in NodeJs
+
 ```javascript
 const json_hook = require('json-hook-trigger');
-var hook = new json_hook.hook()
+var hook = new json_hook.json_hook()
+```
 
+### import in TypeScript
+
+```javascript
+import {json_hook} from 'json-hook-trigger'
+var hook = new json_hook()
+```
+
+### import in Google Apps Script
+
+```javascript
+var hook = new jsonhook.json_hook()
+// 'jsonhook' is follow "Identifier"
+```
+
+```javascript
 var source = {
   "update_id": 910469164,
   "message": {
@@ -72,7 +90,7 @@ var aims = {
 }
 
 function ping(incoming) {
-  console.log(`get ping time = ${incoming.message.date}`);
+  console.log("get ping time = " + incoming.message.date);
 }
 hook.addHook(aims, ping)
 var incoming = source
@@ -98,25 +116,26 @@ hook.macth_run(source,incoming,false) // get ping time = 1594795274
 
 void
 
-
 #### hook.list()
+
 列出當前綁定的 '觸發條件' 跟 '綁定的function'
+
 ##### Return
+
 void
 
 #### hook.macth_run(e,strict_equality)
 
 用來綁定 '觸發條件' 與 '要被執行的 function'
 
-|   Parameters  |             type            | Required |                   Description                  |
-| :-----------: | :-------------------------: | :------: | :--------------------------------------------: |
-|   e   |  |    N   | 描述比對方式的json，其格式看   [aims_object](#aims_object) |
-| strict_equality |   |    Yes   |              如果比對成功會執行這個 function              |
+|    Parameters   | type | Required |                   Description                  |
+| :-------------: | :--: | :------: | :--------------------------------------------: |
+|        e        |      |     N    | 描述比對方式的json，其格式看   [aims_object](#aims_object) |
+| strict_equality |      |    Yes   |              如果比對成功會執行這個 function              |
 
 ##### Return
 
 void
-
 
 ### 參數說明 parameter description
 
