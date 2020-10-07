@@ -1,12 +1,14 @@
 # json-hook
 
 一個分析 json 內容符不符合條件，符合的話就呼叫對應 function 的 hook
+if source json match aims_object , cell hook function
 
 * * *
 
 ## 安裝 install
 
 對! 我原本想要叫 json-hook, 結果有人先搶一步了 Orz...
+I originally wanted to call json-hook, but somebody got the first step. Orz...
 
 ### npm install
 
@@ -128,7 +130,7 @@ hook.macth_run(source,incoming,false) // get ping time = 1594795274
 | :-------------: | :-----: | :------: | :-----------------------------------------------------: |
 |      source     |  object |    Yes   |                  被 hook_aims 比較的 object                 |
 |     incoming    |   any   |    No    |                       要被丟進綁定函數的東西                       |
-| strict_equality | boolean |    No    | 預設 false , 如果false則執行相等於比較(=\\=), true則進行全等於比較(=\\=\\=) |
+| strict_equality | boolean |    No    | 預設 false ,<br> 如果 false 則執行相等於比較(=\=),<br> true 則進行全等於比較(=\=\=) |
 
 | Return | void |
 | :----: | :--: |
