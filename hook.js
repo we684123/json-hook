@@ -1,9 +1,9 @@
 "use strict";
 exports.__esModule = true;
-exports.hook = void 0;
+exports.json_hook = void 0;
 var match_1 = require("./match");
-var hook = /** @class */ (function () {
-    function hook() {
+var json_hook = /** @class */ (function () {
+    function json_hook() {
         this.hooks = [];
     }
     /**
@@ -11,14 +11,14 @@ var hook = /** @class */ (function () {
      * @param  {object} hook_function 滿足觸發條件後要執行的函式
      * @returns void
      */
-    hook.prototype.addHook = function (hook_situation, hook_function) {
+    json_hook.prototype.addHook = function (hook_situation, hook_function) {
         this.hooks.push([hook_situation, hook_function]);
     };
     /**
      * @description 列出以綁定的條件及函式
      * @returns {void}
      */
-    hook.prototype.list = function () {
+    json_hook.prototype.list = function () {
         var hookList = this.hooks;
         console.log(hookList);
         for (var _i = 0, hookList_1 = hookList; _i < hookList_1.length; _i++) {
@@ -33,7 +33,7 @@ var hook = /** @class */ (function () {
      * @param  {boolean} strict_equality? 是否要啟動嚴格比對(全等於)
      * @returns void
      */
-    hook.prototype.macth_run = function (source, incoming, strict_equality) {
+    json_hook.prototype.macth_run = function (source, incoming, strict_equality) {
         for (var _i = 0, _a = this.hooks; _i < _a.length; _i++) {
             var _b = _a[_i], hook_situation = _b[0], hook_function = _b[1];
             if (match_1.match(hook_situation, source, strict_equality)) { // 條件符合，執行!
@@ -41,7 +41,7 @@ var hook = /** @class */ (function () {
             }
         }
     };
-    return hook;
+    return json_hook;
 }());
-exports.hook = hook;
+exports.json_hook = json_hook;
 //# sourceMappingURL=hook.js.map

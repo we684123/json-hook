@@ -1,5 +1,5 @@
 import { match } from './match'
-export class hook {
+export class json_hook {
   hooks: any
 
   constructor() {

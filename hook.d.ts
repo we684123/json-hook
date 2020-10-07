@@ -1,4 +1,4 @@
-export declare class hook {
+export declare class json_hook {
     hooks: any;
     constructor();
     /**
