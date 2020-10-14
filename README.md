@@ -128,26 +128,90 @@ hook.macth_run(source,incoming,false) // get ping time = 1594795274
 
 用來綁定 '觸發條件' 與 '要被執行的 function'
 
-|    Parameters   |   type  | Required |                       Description                       |
-| :-------------: | :-----: | :------: | :-----------------------------------------------------: |
-|      source     |  object |    Yes   |                  被 hook_aims 比較的 object                 |
-|     incoming    |   any   |    No    |                       要被丟進綁定函數的東西                       |
-| strict_equality | boolean |    No    | 預設 false ,<br> 如果 false 則執行相等於比較(=\=),<br> true 則進行全等於比較(=\=\=) |
+|    Parameters   |   type  | Required |                             Description                            |
+| :-------------: | :-----: | :------: | :----------------------------------------------------------------: |
+|      source     |  object |    Yes   |                       被 hook_aims 比較的 object                       |
+|     incoming    |   any   | Optional |                             要被丟進綁定函數的東西                            |
+| strict_equality | boolean | Optional | 預設 false ,<br> 如果 false 則執行相等於比較(=\\=),<br> true 則進行全等於比較(=\\=\\=) |
 
 | Return | void |
 | :----: | :--: |
 
-<!-- ### 參數說明 parameter description
+#### load_gas_plugin(this, hook, hook_name)
 
-|    參數 parameter    |         說明 description         |
-| :----------------: | :----------------------------: |
-|       source       |           要被比對的來源json          |
-|        aims        |            比對模板json            |
-|     aims['and']    |    在這個array下的條件 **皆須符合** 才可以   |
-|     aims['or']     |   在這個array下的條件者要 **一項符合** 就可以  |
-|     aims['not']    | 在這個模式下的的 and 跟 or 會 **反轉最終結果** |
-| aims['not']['and'] |   在這個array下的條件 **皆須不符合** 才可以   |
-|  aims['not']['or'] |  在這個array下的條件者要 **一項不符合** 就可以  | -->
+**⚠️這個只能在 google apps script 上執行⚠️**  
+**⚠️This can only be used on google apps script⚠️**    
+
+能夠自動執行符合 Regex 規則的 function，用來自動載入 plugin。  
+Able to automatically execute functions that comply with Regex rules  
+Used to automatically load plugin    
+
+| Parameters |  type  | Required |   Description  |
+| :--------: | :----: | :------: | :------------: |
+|    this    | object |    Yes   | 只能是 this, 不能更改 |
+|    hook    | object |    Yes   |     hook 本體    |
+|  hook_name | string |    Yes   | hook 的名稱，一定要一樣 |
+
+| Return | void |
+| :----: | :--: |
+
+##### load_gas_plugin example:
+
+1.  main file
+
+```javascript
+function main() {
+  var hook = new jsonhook.json_hook()
+  // 'jsonhook' is follow "Identifier"
+
+  var source = {
+    "update_id": 910469164,
+    "message": {
+      "date": 1594795274,
+      "text": "ping"
+    }
+  }
+
+  // load_plugins
+  // hook.plugin_re_str = '^plugins'  // <- Optional, RegExp text
+  hook.load_gas_plugin(this, hook, "hook")
+
+  var incoming = source
+  hook.macth_run(source, incoming, false) // get ping time = 1594795274
+}
+```
+
+2.  plugin file
+
+```javascript
+function plugin_ping(hook){
+  var aims = {
+    "and": [{
+      'targer': ["message", 'text'],
+      'value': 'ping',
+      'only_exist': false,
+      'use_re': true
+    }]
+  }
+
+  function ping(incoming) {
+    console.log("get ping time = " + incoming.message.date);
+  }
+  hook.addHook(aims, ping)
+}
+```
+
+#### plugin_re_str
+
+plugin_re_str 型別是 string  
+用來當作 RegExp 的字串
+配合 load_gas_plugin() 使用
+
+this type is string  
+set RegExp text (for match function)
+Use with load_gas_plugin()
+
+* * *
 
 ### aims_object 介紹
 
@@ -164,9 +228,9 @@ aims['not']['or'] 則是任一不符合
 |        aims        |           Yes          |            比對模板json            |
 |     aims['and']    |  如果沒有 aims['or']，則 Yes |    在這個array下的條件 **皆須符合** 才可以   |
 |     aims['or']     | 如果沒有 aims['and']，則 Yes |   在這個array下的條件者要 **一項符合** 就可以  |
-|     aims['not']    |           No           | 在這個模式下的的 and 跟 or 會 **反轉最終結果** |
-| aims['not']['and'] |           No           |   在這個array下的條件 **皆須不符合** 才可以   |
-|  aims['not']['or'] |           No           |  在這個array下的條件者要 **一項不符合** 就可以  |
+|     aims['not']    |        Optional        | 在這個模式下的的 and 跟 or 會 **反轉最終結果** |
+| aims['not']['and'] |        Optional        |   在這個array下的條件 **皆須不符合** 才可以   |
+|  aims['not']['or'] |        Optional        |  在這個array下的條件者要 **一項不符合** 就可以  |
 
 #### 範例 example
 
