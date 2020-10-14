@@ -1,9 +1,11 @@
 import { match } from './match'
 export class json_hook {
   hooks: any
+  plugin_re_str: string
 
   constructor() {
     this.hooks = []
+    this.plugin_re_str = '^plugin'
   }
   /**
    * @param  {any} hook_situation 綁定的觸發條件
@@ -35,6 +37,19 @@ export class json_hook {
     for (let [hook_situation, hook_function] of this.hooks) {
       if (match(hook_situation, source, strict_equality)) { // 條件符合，執行!
         hook_function.call(null, incoming)
+      }
+    }
+  }
+
+  public load_gas_plugin(_this: any, hook: any, hook_name: string) {
+    for (var key in _this) {
+      if (typeof _this[key] == "function") {
+        let regex = RegExp(String(this.plugin_re_str), 'g')
+        if (!!String(key).match(regex)) {
+          let cmd = `_this.${key}(${hook_name})`
+          eval(`var ${hook_name} = hook`)
+          eval(cmd)
+        }
       }
     }
   }

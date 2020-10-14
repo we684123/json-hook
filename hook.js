@@ -5,6 +5,7 @@ var match_1 = require("./match");
 var json_hook = /** @class */ (function () {
     function json_hook() {
         this.hooks = [];
+        this.plugin_re_str = '^plugin';
     }
     /**
      * @param  {any} hook_situation 綁定的觸發條件
@@ -38,6 +39,18 @@ var json_hook = /** @class */ (function () {
             var _b = _a[_i], hook_situation = _b[0], hook_function = _b[1];
             if (match_1.match(hook_situation, source, strict_equality)) { // 條件符合，執行!
                 hook_function.call(null, incoming);
+            }
+        }
+    };
+    json_hook.prototype.load_gas_plugin = function (_this, hook, hook_name) {
+        for (var key in _this) {
+            if (typeof _this[key] == "function") {
+                var regex = RegExp(String(this.plugin_re_str), 'g');
+                if (!!String(key).match(regex)) {
+                    var cmd = "_this." + key + "(" + hook_name + ")";
+                    eval("var " + hook_name + " = hook");
+                    eval(cmd);
+                }
             }
         }
     };
