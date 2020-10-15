@@ -6,6 +6,7 @@ var json_hook = /** @class */ (function () {
     function json_hook() {
         this.hooks = [];
         this.plugin_re_str = '^plugin';
+        this.plugins_folder = './plugins';
     }
     /**
      * @param  {any} hook_situation 綁定的觸發條件
@@ -43,6 +44,7 @@ var json_hook = /** @class */ (function () {
         }
     };
     json_hook.prototype.load_gas_plugin = function (_this, hook, hook_name) {
+        hook; // ㄜ... 對! 沒有用~ 只是不想看到 ts 一直提醒我沒有用 (๑-﹏-๑)
         for (var key in _this) {
             if (typeof _this[key] == "function") {
                 var regex = RegExp(String(this.plugin_re_str), 'g');
@@ -53,6 +55,41 @@ var json_hook = /** @class */ (function () {
                 }
             }
         }
+    };
+    json_hook.prototype.load_nodejs_plugin = function (hook, hook_name) {
+        hook; // ㄜ... 對! 沒有用~ 只是不想看到 ts 一直提醒我沒有用 (๑-﹏-๑)
+        // @ts-ignore
+        var path = require('path');
+        // @ts-ignore
+        var fs = require('fs');
+        var plugins_folder = this.plugins_folder;
+        // @ts-ignore
+        var directoryPath = path.join(__dirname, plugins_folder);
+        var file_name_re = RegExp('.+\.(ts|js|gs)$', 'g');
+        var get_plugin_function_name_re = RegExp('^function\ ([^{}]+)', 'g');
+        // @ts-ignore
+        fs.readdir(directoryPath, function (err, files) {
+            if (err) {
+                return console.log('Unable to scan directory: ' + err);
+            }
+            // @ts-ignore
+            files.forEach(function (file) {
+                if (!!String(file).match(file_name_re)) {
+                    console.log(file);
+                    // @ts-ignore
+                    fs.readFile("./" + plugins_folder + "/" + file, function (err, data) {
+                        if (err)
+                            throw err;
+                        var data_str = data.toString();
+                        var i = data_str.match(get_plugin_function_name_re);
+                        var j = i[0].replace('function ', '');
+                        console.log(j);
+                        eval(data_str); // 載入 plugin function 內容
+                        eval(j.replace('hook', hook_name)); // 執行 plugin function
+                    });
+                }
+            });
+        });
     };
     return json_hook;
 }());
