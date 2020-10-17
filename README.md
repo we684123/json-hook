@@ -362,9 +362,9 @@ amis = {
 |    use_re    |    boolean   |    Yes   |       是否啟用 Regex 比對模式      |
 
 ## 整合模組 assemble plugin
-如果你的執行環境不是 google Apps Script 或是 NodeJs
-那麼可以考慮使用 assemble.py 將 plugins 直接整合到一個檔案
-用法如下：
+如果你的執行環境不是 google Apps Script 或是 NodeJs    
+那麼可以考慮使用 assemble.py 將 plugins 直接整合到一個檔案    
+用法如下：    
 
 `python .\assemble.py --help`
 
