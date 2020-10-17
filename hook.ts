@@ -72,28 +72,16 @@ export class json_hook {
     const get_plugin_function_name_re = RegExp('^function\ ([^{}]+)', 'g')
 
     // @ts-ignore
-    fs.readdir(directoryPath, function(err, files) {
-      if (err) {
-        return console.log('Unable to scan directory: ' + err);
+    var files = fs.readdirSync(directoryPath);
+    files.forEach(function(file:any) {
+      if (!!String(file).match(file_name_re)) {
+        // @ts-ignore
+        var data_str = fs.readFileSync("./" + plugins_folder + "/" + file).toString();
+        var i = data_str.match(get_plugin_function_name_re);
+        var j = i[0].replace('function ', '');
+        // 載入 plugin function 內容
+        eval(data_str + '\n' + j.replace('hook', hook_name));
       }
-      // @ts-ignore
-      files.forEach(function(file) {
-        if (!!String(file).match(file_name_re)) {
-          console.log(file);
-
-          // @ts-ignore
-          fs.readFile(`./${plugins_folder}/${file}`, function(err, data) {
-            if (err) throw err;
-
-            let data_str = data.toString()
-            let i = data_str.match(get_plugin_function_name_re)
-            let j = i[0].replace('function ', '')
-            console.log(j);
-            eval(data_str) // 載入 plugin function 內容
-            eval(j.replace('hook', hook_name)) // 執行 plugin function
-          })
-        }
-      })
     })
   }
 }
