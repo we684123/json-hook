@@ -201,15 +201,90 @@ function plugin_ping(hook){
 }
 ```
 
+#### load_nodejs_plugin(hook, hook_name)
+
+**⚠️這個只能在 NodeJs 上執行⚠️**  
+**⚠️This can only be used on NodeJs⚠️**    
+
+使用後會自動載入 ./plugins 資料夾，並將模組引入。  
+After use, it will automatically load the **"./plugins"** folder and import the module
+
+| Parameters |  type  | Required |   Description  |
+| :--------: | :----: | :------: | :------------: |
+|    hook    | object |    Yes   |     hook 本體    |
+|  hook_name | string |    Yes   | hook 的名稱，一定要一樣 |
+
+| Return | void |
+| :----: | :--: |
+
+##### load_nodejs_plugin example:
+
+1.  main file
+
+```javascript
+function main() {
+  const json_hook = require('./hook');
+  var hook = new json_hook.json_hook()
+
+  var source = {
+    "update_id": 910469164,
+    "message": {
+      "date": 1594795274,
+      "text": "ping"
+    }
+  }
+
+  // load_plugins
+  hook.load_nodejs_plugin(hook,"hook")
+
+  var incoming = source
+  hook.macth_run(source, incoming, false) // get ping time = 1594795274
+}
+```
+
+2.  plugin file ("./plugins/ping.js")
+
+```javascript
+function plugin_ping(hook){
+  var aims = {
+    "and": [{
+      'targer': ["message", 'text'],
+      'value': 'ping',
+      'only_exist': false,
+      'use_re': true
+    }]
+  }
+
+  function ping(incoming) {
+    console.log("get ping time = " + incoming.message.date);
+  }
+  hook.addHook(aims, ping)
+}
+```
+
 #### plugin_re_str
 
 plugin_re_str 型別是 string  
 用來當作 RegExp 的字串
-配合 load_gas_plugin() 使用
+**配合 load_gas_plugin() 使用**
+預設是 "^plugin"
 
 this type is string  
 set RegExp text (for match function)
-Use with load_gas_plugin()
+**Use with load_gas_plugin()**
+The default is "^plugin"
+
+#### plugins_folder
+
+plugins_folder 型別是 string  
+用來表示 plugins 的資料夾位置
+**配合 load_nodejs_plugin() 使用**
+預設是 "./plugins"
+
+plugins_folder type is string
+Used to indicate the folder location of plugins
+**Use with load_nodejs_plugin()**
+The default is'./plugins'
 
 * * *
 
@@ -285,3 +360,39 @@ amis = {
 |     value    |      any     |    Yes   |          比對指定目標的值          |
 |  only_exist  |    boolean   |    Yes   | 是否只要指定目標存在就好(!= undefined) |
 |    use_re    |    boolean   |    Yes   |       是否啟用 Regex 比對模式      |
+
+## 整合模組 assemble plugin
+如果你的執行環境不是 google Apps Script 或是 NodeJs
+那麼可以考慮使用 assemble.py 將 plugins 直接整合到一個檔案
+用法如下：
+
+`python .\assemble.py --help`
+
+```
+Usage: assemble.py [OPTIONS]
+
+Options:
+  -i, --input TEXT           程式本體(main.js)，預設 "./main.js"
+  -p, --plugins_folder TEXT  plugins 資料夾的位置，預設 "./plugins"
+  -a, --annotation TEXT      註解的名稱，預設是 "// load_plugins"
+  -n, --new_name TEXT        新檔案的名稱，預設是 "main.ass.js"
+  --help                     Show this message and exit.
+```
+
+詳細可以下載這個專案後，直接執行 `./assemble/assemble.py` 看看
+
+ps' 我有順便用 win x64 的版本，有需要可以使用。
+
+## 版本資訊 Version
+
+2020/10/17 - (v1.2.0)
+ - 新增 load_nodejs_plugin
+
+2020/10/15 - (v1.1.0)
+ - 新增 load_gas_plugin
+
+2020/10/08 - (v1.0.0)
+ - 初發布
+
+## todo
+ - 一個 py or node 可執行的檔案，用來將 plugins 內的檔案全部塞入主程式中。

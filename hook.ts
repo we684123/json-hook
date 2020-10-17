@@ -2,10 +2,12 @@ import { match } from './match'
 export class json_hook {
   hooks: any
   plugin_re_str: string
+  plugins_folder: string
 
   constructor() {
     this.hooks = []
     this.plugin_re_str = '^plugin'
+    this.plugins_folder = './plugins'
   }
   /**
    * @param  {any} hook_situation 綁定的觸發條件
@@ -41,7 +43,8 @@ export class json_hook {
     }
   }
 
-  public load_gas_plugin(_this: any, hook: any, hook_name: string) {
+  public load_gas_plugin(_this: any, hook: any, hook_name: string): void {
+    hook // ㄜ... 對! 沒有用~ 只是不想看到 ts 一直提醒我沒有用 (๑-﹏-๑)
     for (var key in _this) {
       if (typeof _this[key] == "function") {
         let regex = RegExp(String(this.plugin_re_str), 'g')
@@ -54,4 +57,31 @@ export class json_hook {
     }
   }
 
+  public load_nodejs_plugin(hook: any, hook_name: string): void {
+    hook // ㄜ... 對! 沒有用~ 只是不想看到 ts 一直提醒我沒有用 (๑-﹏-๑)
+    // @ts-ignore
+    const path = require('path');
+    // @ts-ignore
+    const fs = require('fs');
+
+    const plugins_folder = this.plugins_folder
+    // @ts-ignore
+    const directoryPath = path.join(__dirname, plugins_folder);
+
+    const file_name_re = RegExp('.+\.(ts|js|gs)$', 'g')
+    const get_plugin_function_name_re = RegExp('^function\ ([^{}]+)', 'g')
+
+    // @ts-ignore
+    var files = fs.readdirSync(directoryPath);
+    files.forEach(function(file:any) {
+      if (!!String(file).match(file_name_re)) {
+        // @ts-ignore
+        var data_str = fs.readFileSync("./" + plugins_folder + "/" + file).toString();
+        var i = data_str.match(get_plugin_function_name_re);
+        var j = i[0].replace('function ', '');
+        // 載入 plugin function 內容
+        eval(data_str + '\n' + j.replace('hook', hook_name));
+      }
+    })
+  }
 }

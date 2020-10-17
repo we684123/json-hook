@@ -1,6 +1,7 @@
 export declare class json_hook {
     hooks: any;
     plugin_re_str: string;
+    plugins_folder: string;
     constructor();
     /**
      * @param  {any} hook_situation 綁定的觸發條件
@@ -21,5 +22,6 @@ export declare class json_hook {
      */
     macth_run(source: object, incoming?: any, strict_equality?: boolean): void;
     load_gas_plugin(_this: any, hook: any, hook_name: string): void;
+    load_nodejs_plugin(hook: any, hook_name: string): void;
 }
 //# sourceMappingURL=hook.d.ts.map
