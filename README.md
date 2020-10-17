@@ -361,7 +361,29 @@ amis = {
 |  only_exist  |    boolean   |    Yes   | 是否只要指定目標存在就好(!= undefined) |
 |    use_re    |    boolean   |    Yes   |       是否啟用 Regex 比對模式      |
 
-## 版本資訊 (Version)
+## 整合模組 assemble plugin
+如果你的執行環境不是 google Apps Script 或是 NodeJs
+那麼可以考慮使用 assemble.py 將 plugins 直接整合到一個檔案
+用法如下：
+
+`python .\assemble.py --help`
+
+```
+Usage: assemble.py [OPTIONS]
+
+Options:
+  -i, --input TEXT           程式本體(main.js)，預設 "./main.js"
+  -p, --plugins_folder TEXT  plugins 資料夾的位置，預設 "./plugins"
+  -a, --annotation TEXT      註解的名稱，預設是 "// load_plugins"
+  -n, --new_name TEXT        新檔案的名稱，預設是 "main.ass.js"
+  --help                     Show this message and exit.
+```
+
+詳細可以下載這個專案後，直接執行 `./assemble/assemble.py` 看看
+
+ps' 我有順便用 win x64 的版本，有需要可以使用。
+
+## 版本資訊 Version
 
 2020/10/17 - (v1.2.0)
  - 新增 load_nodejs_plugin
