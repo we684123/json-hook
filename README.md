@@ -1,8 +1,10 @@
 # json-hook
 
-一個分析 json 內容符不符合條件，符合的話就呼叫對應 function 的 hook    
+一個分析 json 內容符不符合條件，符合的話就呼叫對應 function 的 hook。    
+理論上能夠適應各種支援純js的平台。    
 
-if source json match aims_object , cell hook function    
+if source json match aims_object , cell hook function.    
+In theory, it can be adapted to various platforms that support pure js.     
 
 * * *
 
@@ -107,7 +109,8 @@ hook.macth_run(source,incoming,false) // get ping time = 1594795274
 
 #### hook.addHook(hook_aims, hook_function)
 
-用來綁定 '觸發條件' 與 '要被執行的 function'
+用來綁定 '觸發條件' 與 '要被執行的 function'    
+hook a 'condition' to 'function'    
 
 |   Parameters  |              type              | Required |                    Description                   |
 | :-----------: | :----------------------------: | :------: | :----------------------------------------------: |
@@ -119,7 +122,8 @@ hook.macth_run(source,incoming,false) // get ping time = 1594795274
 
 #### hook.list()
 
-列出當前綁定的 '觸發條件' 跟 '綁定的function'
+列出當前綁定的 '觸發條件' 跟 '綁定的function'    
+print hook 'condition' and 'hook function'    
 
 | Return | void |
 | :----: | :--: |
@@ -142,8 +146,8 @@ hook.macth_run(source,incoming,false) // get ping time = 1594795274
 **⚠️這個只能在 google apps script 上執行⚠️**  
 **⚠️This can only be used on google apps script⚠️**    
 
-能夠自動執行符合 Regex 規則的 function，用來自動載入 plugin。  
-Able to automatically execute functions that comply with Regex rules  
+能夠自動執行符合 Regex 規則的 function，用來自動載入 plugin。      
+Able to automatically execute functions that comply with Regex rules      
 Used to automatically load plugin    
 
 | Parameters |  type  | Required |   Description  |
@@ -206,8 +210,8 @@ function plugin_ping(hook){
 **⚠️這個只能在 NodeJs 上執行⚠️**  
 **⚠️This can only be used on NodeJs⚠️**    
 
-使用後會自動載入 ./plugins 資料夾，並將模組引入。  
-After use, it will automatically load the **"./plugins"** folder and import the module
+使用後會自動載入 ./plugins 資料夾，並將模組引入。      
+After use, it will automatically load the **"./plugins"** folder and import the module    
 
 | Parameters |  type  | Required |   Description  |
 | :--------: | :----: | :------: | :------------: |
@@ -264,39 +268,39 @@ function plugin_ping(hook){
 
 #### plugin_re_str
 
-plugin_re_str 型別是 string  
-用來當作 RegExp 的字串
-**配合 load_gas_plugin() 使用**
-預設是 "^plugin"
+plugin_re_str 型別是 string      
+用來當作 RegExp 的字串    
+**配合 load_gas_plugin() 使用**    
+預設是 "^plugin"    
 
-this type is string  
-set RegExp text (for match function)
-**Use with load_gas_plugin()**
-The default is "^plugin"
+this type is string      
+set RegExp text (for match function)    
+**Use with load_gas_plugin()**    
+The default is "^plugin"    
 
 #### plugins_folder
 
-plugins_folder 型別是 string  
-用來表示 plugins 的資料夾位置
-**配合 load_nodejs_plugin() 使用**
-預設是 "./plugins"
+plugins_folder 型別是 string      
+用來表示 plugins 的資料夾位置    
+**配合 load_nodejs_plugin() 使用**    
+預設是 "./plugins"    
 
-plugins_folder type is string
-Used to indicate the folder location of plugins
-**Use with load_nodejs_plugin()**
-The default is'./plugins'
+plugins_folder type is string    
+Used to indicate the folder location of plugins    
+**Use with load_nodejs_plugin()**    
+The default is'./plugins'    
 
 * * *
 
 ### aims_object 介紹
 
-aims_object 只是一個特定格式的 object。
-其內包含 and、or、not 三個條件
+aims_object 只是一個特定格式的 object。    
+其內包含 and、or、not 三個條件    
 
-顧名思義，and 內列的條件皆須遵守，or 則只要有一個遵守就好
-not 則是會把結果反過來，所以
-aims['not']['and'] 是皆須不符合
-aims['not']['or'] 則是任一不符合
+顧名思義，and 內列的條件皆須遵守，or 則只要有一個遵守就好    
+not 則是會把結果反過來，所以    
+aims['not']['and'] 是皆須不符合    
+aims['not']['or'] 則是任一不符合    
 
 |    參數 parameter    |        Required        |         說明 description         |
 | :----------------: | :--------------------: | :----------------------------: |
@@ -379,20 +383,24 @@ Options:
   --help                     Show this message and exit.
 ```
 
-詳細可以下載這個專案後，直接執行 `./assemble/assemble.py` 看看
+詳細可以下載這個專案後，直接執行 `./assemble/assemble.py` 看看    
 
-ps' 我有順便用 win x64 的版本，有需要可以使用。
+ps' 我有順便用 win x64 的版本，有需要可以使用。    
 
 ## 版本資訊 Version
 
-2020/10/17 - (v1.2.0)
- - 新增 load_nodejs_plugin
+2020/10/18 - (v1.3.0)    
+ - 新增 assemble.py、 assemble_won_x64.exe，用來解決跨平台問題    
 
-2020/10/15 - (v1.1.0)
- - 新增 load_gas_plugin
+2020/10/17 - (v1.2.0)    
+ - 新增 load_nodejs_plugin    
 
-2020/10/08 - (v1.0.0)
- - 初發布
+2020/10/15 - (v1.1.0)    
+ - 新增 load_gas_plugin    
+
+2020/10/08 - (v1.0.0)    
+ - 初發布    
 
 ## todo
- - 一個 py or node 可執行的檔案，用來將 plugins 內的檔案全部塞入主程式中。
+ - ~~一個 py or node 可執行的檔案，用來將 plugins 內的檔案全部塞入主程式中。~~    
+ - 教學影片    
