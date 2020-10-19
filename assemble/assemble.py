@@ -30,7 +30,7 @@ def assemble(input, plugins_folder, annotation, new_name, hide_folder_name):
             files = [f for f in pf.iterdir()
                      if f.is_file()]
             folders = [f for f in pf.iterdir()
-                       if f.is_dir() and f.name != hide_folder_name ]
+                       if f.is_dir() and f.name != hide_folder_name]
             for i in files:
                 file = pf.joinpath(i)
                 file_content = file.read_text(encoding='utf-8')
