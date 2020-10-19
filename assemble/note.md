@@ -2,4 +2,4 @@
 
 `pyinstaller -F .\assemble_plugins.py`
 
-`pyinstaller -F .\assemble_funcions.py`
+`pyinstaller -F .\assemble_functions.py`
