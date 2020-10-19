@@ -1,8 +1,5 @@
 import re
 from pathlib import Path
-import os
-from os import listdir
-from os.path import isfile, isdir, join
 
 import click
 
@@ -61,17 +58,3 @@ def assemble(input, plugins_folder, annotation, new_name, hide_folder_name):
 
 if __name__ == '__main__':
     assemble()
-
-# pf = Path(plugins_folder)
-# pfgp = pf.glob('*/*.py')
-# str(pfgp)
-#
-# fi = plugins_folder.iterdir()
-# fi.
-# len(fi)
-# for f in os.listdir(plugins_folder):
-#     print(join(plugins_folder, f))
-#     print(join(plugins_folder, f).isfile())
-#
-# is_dir
-# list(Path(plugins_folder).glob('/*'))
