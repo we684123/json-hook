@@ -1,4 +1,4 @@
-function plugin_pingOOOOOO(hook) {
+function plugin_ping222(hook){
   // 這個不會被引入
   // this will not load
   var aims = {

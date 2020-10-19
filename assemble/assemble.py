@@ -26,22 +26,22 @@ def assemble(input, plugins_folder, annotation, new_name, hide_folder_name):
     txts.insert(0, annotation)
 
     if plugins_folder.exists():
+        def plugins_load(pf):
+            files = [f for f in pf.iterdir()
+                     if f.is_file()]
+            folders = [f for f in pf.iterdir()
+                       if f.is_dir() and f.name != hide_folder_name ]
+            for i in files:
+                file = pf.joinpath(i)
+                file_content = file.read_text(encoding='utf-8')
+                j = pattern.findall(file_content)[0]
+                txts.append(file_content)
+                txts.append(j)
+            for k in folders:
+                plugins_load(k)
 
-        # files = [f for f in listdir(plugins_folder)
-        # if isfile(join(plugins_folder, f))]
-        files = [f for f in plugins_folder.iterdir()
-                 if f.is_file()]
-        # folders = [f for f in listdir(plugins_folder)
-        #            if isdir(join(plugins_folder, f))]
-        folders = [f for f in plugins_folder.iterdir()
-                   if f.is_dir()]
-        for i in files:
-            file = plugins_folder.joinpath(i)
-            file_content = file.read_text(encoding='utf-8')
-            # print(file_content)
-            j = pattern.findall(file_content)[0]
-            txts.append(file_content)
-            txts.append(j)
+        plugins_load(plugins_folder)
+
     else:
         print('plugins folder is not exist')
 

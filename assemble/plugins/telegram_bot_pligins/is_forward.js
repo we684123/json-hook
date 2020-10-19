@@ -1,4 +1,4 @@
-function plugin_is_forward(hook) {
+function plugin_TG_is_forward(hook) {
   var aims = {
     // source['message']['forward_from'] 必須存在
     "and": [{
