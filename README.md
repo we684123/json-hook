@@ -365,32 +365,62 @@ amis = {
 |  only_exist  |    boolean   |    Yes   | 是否只要指定目標存在就好(!= undefined) |
 |    use_re    |    boolean   |    Yes   |       是否啟用 Regex 比對模式      |
 
-## 整合模組 assemble plugin
-如果你的執行環境不是 google Apps Script 或是 NodeJs    
-那麼可以考慮使用 assemble.py 將 plugins 直接整合到一個檔案    
-用法如下：    
+## 整合模組、函式 assemble plugin、function
+如果你的執行環境不是 google Apps Script、NodeJs    
+或是你想要將所有的程式碼整合在一起，以便更新之類的...
 
-`python .\assemble.py --help`
+那麼可以考慮使用
+`assemble_plugins.py` 將 plugins 直接整合到一個檔案    
+`assemble_functions.py` 將 functions 直接整合到一個檔案    
+
+⚠️環境要求 `Python >= 3.4`⚠️
+
+二者用法說明如下：    
+
+1. `python assemble_plugins.py --help`
 
 ```
-Usage: assemble.py [OPTIONS]
+Usage: assemble_plugins.py [OPTIONS]
 
 Options:
-  -i, --input TEXT           程式本體(main.js)，預設 "./main.js"
-  -p, --plugins_folder TEXT  plugins 資料夾的位置，預設 "./plugins"
-  -a, --annotation TEXT      註解的名稱，預設是 "// load_plugins"
-  -n, --new_name TEXT        新檔案的名稱，預設是 "main.ass.js"
-  --help                     Show this message and exit.
+  -i, --input TEXT             程式本體(main.js)，預設 "./main.js"
+  -p, --plugins_folder TEXT    plugins 資料夾的位置，預設 "./plugins"
+  -a, --annotation TEXT        註解的名稱，預設是 "// load_plugins"
+  -n, --new_name TEXT          新檔案的名稱，預設是 "main.ass.js"
+  -h, --hide_folder_name TEXT  忽略的資料夾名稱，預設是 "hide"
+  --help                       Show this message and exit.
 ```
 
-詳細可以下載這個專案後，直接執行 `./assemble/assemble.py` 看看    
+2. `python assemble_functions.py --help`
+
+```
+Usage: assemble_functions.py [OPTIONS]
+
+Options:
+  -i, --input TEXT             程式本體(main.js)，預設 "./main.js"
+  -f, --functions_folder TEXT  functions 資料夾的位置，預設 "./functions"
+  -a, --annotation TEXT        註解的名稱，預設是 "// load_functions"
+  -n, --new_name TEXT          新檔案的名稱，預設是 "main.ass.js"
+  -h, --hide_folder_name TEXT  忽略的資料夾名稱，預設是 "hide"
+  --help                       Show this message and exit.
+```
+
+你可以下載這個專案後，在`./assemble` 下找到他們    
+在你操作過後會發現，他們會把指定資料夾下的所有檔案引入並處理    
+但會忽略掉資料夾名等於 "hide" (可由 `--hide_folder_name` 指定) 內的檔案。    
 
 ps' 我有順便用 win x64 的版本，有需要可以使用。    
 
 ## 版本資訊 Version
 
+2020/10/19 - (v1.4.0)    
+ - 新增 `assemble_plugins` , `assemble_functions`    
+   現在可以樹狀引入資料，還有 hide 功能。    
+ - 移除 `assemble.py`    
+ - 部分 code 重構，變得在好看一點~    
+
 2020/10/18 - (v1.3.0)    
- - 新增 assemble.py、 assemble_won_x64.exe，用來解決跨平台問題    
+ - 新增 assemble.py、 assemble_win_x64.exe，用來解決跨平台問題    
 
 2020/10/17 - (v1.2.0)    
  - 新增 load_nodejs_plugin    
@@ -403,5 +433,5 @@ ps' 我有順便用 win x64 的版本，有需要可以使用。
 
 ## todo
  - ~~一個 py or node 可執行的檔案，用來將 plugins 內的檔案全部塞入主程式中。~~    
- - 支援 functions 匯入    
+ - ~~支援 functions 匯入~~    
  - 教學影片    
