@@ -1,15 +1,18 @@
 import { match } from './match'
-export class json_hook {
+export class JsonHook {
   hooks: any
   plugin_re_str: string
   plugins_folder: string
+  match: any
 
   constructor() {
     this.hooks = []
     this.plugin_re_str = '^plugin'
     this.plugins_folder = './plugins'
+    this.match = match
   }
   /**
+   * @description 綁定 hook條件 及 被hook函式
    * @param  {any} hook_situation 綁定的觸發條件
    * @param  {object} hook_function 滿足觸發條件後要執行的函式
    * @returns void
@@ -21,7 +24,7 @@ export class json_hook {
    * @description 列出以綁定的條件及函式
    * @returns {void}
    */
-  public list(): void {
+  public listHook(): void {
     let hookList = this.hooks
     console.log(hookList)
     for (let [key, value] of hookList) {
@@ -30,12 +33,26 @@ export class json_hook {
     }
   }
   /**
+   * @description 列出以綁定的條件及函式
    * @param  {object} source 要被 '觸發條件json' 比對的 '事件json'
    * @param  {any} incoming? 要被傳入 '觸發函式' 的東西，可有可無
    * @param  {boolean} strict_equality? 是否要啟動嚴格比對(全等於)
    * @returns void
    */
-  public macth_run(source: object, incoming?: any, strict_equality?: boolean): void {
+  public macthRun(hook_situation: object, hook_function: any, source: object, incoming?: any, strict_equality?: boolean): void {
+    if (match(hook_situation, source, strict_equality)) { // 條件符合，執行!
+      hook_function.call(null, incoming)
+    }
+  }
+
+  /**
+   * @description loop macth all hook
+   * @param  {object} source 要被 '觸發條件json' 比對的 '事件json'
+   * @param  {any} incoming? 要被傳入 '觸發函式' 的東西，可有可無
+   * @param  {boolean} strict_equality? 是否要啟動嚴格比對(全等於)
+   * @returns void
+   */
+  public macthRunAll(source: object, incoming?: any, strict_equality?: boolean): void {
     for (let [hook_situation, hook_function] of this.hooks) {
       if (match(hook_situation, source, strict_equality)) { // 條件符合，執行!
         hook_function.call(null, incoming)
@@ -43,7 +60,7 @@ export class json_hook {
     }
   }
 
-  public load_gas_plugin(_this: any, hook: any, hook_name: string): void {
+  public loadGoogleAppsScriptPlugin(_this: any, hook: any, hook_name: string): void {
     hook // ㄜ... 對! 沒有用~ 只是不想看到 ts 一直提醒我沒有用 (๑-﹏-๑)
     for (var key in _this) {
       if (typeof _this[key] == "function") {
@@ -57,7 +74,7 @@ export class json_hook {
     }
   }
 
-  public load_nodejs_plugin(hook: any, hook_name: string): void {
+  public loadNodejsPlugin(hook: any, hook_name: string): void {
     hook // ㄜ... 對! 沒有用~ 只是不想看到 ts 一直提醒我沒有用 (๑-﹏-๑)
     // @ts-ignore
     const path = require('path');
@@ -73,7 +90,7 @@ export class json_hook {
 
     // @ts-ignore
     var files = fs.readdirSync(directoryPath);
-    files.forEach(function(file:any) {
+    files.forEach(function(file: any) {
       if (!!String(file).match(file_name_re)) {
         // @ts-ignore
         var data_str = fs.readFileSync("./" + plugins_folder + "/" + file).toString();
