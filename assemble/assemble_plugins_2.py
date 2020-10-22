@@ -23,6 +23,7 @@ def assemble(input, plugins_folder, annotation, new_name, hide_folder_name):
     txts.insert(0, annotation)
 
     if plugins_folder.exists():
+        # pf = plugins_folder
         def plugins_load(pf):
             files = [f for f in pf.iterdir()
                      if f.is_file()]
@@ -31,7 +32,10 @@ def assemble(input, plugins_folder, annotation, new_name, hide_folder_name):
             for i in files:
                 file = pf.joinpath(i)
                 file_content = file.read_text(encoding='utf-8')
+                file_content.replace(r'hook\.addHook\((aims), (ping)\)')
                 j = pattern.findall(file_content)[0]
+                pattern2 = re.compile(r'\((.+)\)')
+                parameter = pattern2.findall(j)[0]
                 txts.append(file_content)
                 txts.append(j)
             for k in folders:
@@ -58,3 +62,25 @@ def assemble(input, plugins_folder, annotation, new_name, hide_folder_name):
 
 if __name__ == '__main__':
     assemble()
+
+
+from pprint import pprint
+
+pprint( file_content)
+pattern3 = re.compile(r'hook\.addHook\((aims), (ping)\)')
+pattern3.findall()
+a = re.sub(r'hook\.addHook\((aims), (ping)\)',parameter,file_content)
+pprint( a)
+
+
+pattern = re.compile(r'^function\ ([^{}]+)')
+file_content.replace()
+
+pattern = re.compile(r'^function\ ([^{}]+)')
+pattern2 = re.compile(r'\((.+)\)')
+f = pattern.findall(file_content)[0]
+parameter =pattern2.findall(f)[0]
+'{parameter}.macthRun({},{})'
+
+g = 'plugin_pingOOOOOO(hook)'.replace(r'\((.+)\)','$1')
+g
