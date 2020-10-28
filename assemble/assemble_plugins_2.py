@@ -1,3 +1,4 @@
+from pprint import pprint
 import re
 from pathlib import Path
 
@@ -30,14 +31,37 @@ def assemble(input, plugins_folder, annotation, new_name, hide_folder_name):
             folders = [f for f in pf.iterdir()
                        if f.is_dir() and f.name != hide_folder_name]
             for i in files:
+                # i = files[0]
                 file = pf.joinpath(i)
                 file_content = file.read_text(encoding='utf-8')
-                file_content.replace(r'hook\.addHook\((aims), (ping)\)')
+
+                pattern3 = re.compile(r'\.addHook\(([^\(\)]+), ([^\(\)]+)\)')
+                pattern3.findall(file_content)
+
+                b = re.search(pattern3, file_content)
+                aims_name = b.group(1)
+                func_name = b.group(2)
+
+                pattern4 = re.compile(
+                    r'function [^\(\)\{\}]+\(([^\(\)\{\}]+)\) +\{')
+                c = re.search(pattern4, file_content)
+                hook_name = c.group(1)
+
+                a = re.sub(r'\.addHook\(([^\(\)]+), ([^\(\)]+)\)',
+                           '{0}.macthRun({1},{2},{3},{4},{5})'.format(
+                               hook_name,
+                               aims_name,
+                               func_name,
+                               'source',
+                               'incoming',
+                               '{0}.strict_equality'.format(hook_name)
+                           ),
+                           file_content
+                           )
                 j = pattern.findall(file_content)[0]
-                pattern2 = re.compile(r'\((.+)\)')
-                parameter = pattern2.findall(j)[0]
-                txts.append(file_content)
+                txts.append(a)
                 txts.append(j)
+
             for k in folders:
                 plugins_load(k)
 
@@ -64,23 +88,29 @@ if __name__ == '__main__':
     assemble()
 
 
-from pprint import pprint
-
-pprint( file_content)
-pattern3 = re.compile(r'hook\.addHook\((aims), (ping)\)')
-pattern3.findall()
-a = re.sub(r'hook\.addHook\((aims), (ping)\)',parameter,file_content)
-pprint( a)
+pprint(file_content)
+pattern3 = re.compile(r'\.addHook\(([^\(\)]+), ([^\(\)]+)\)')
+pattern3.findall(file_content)
 
 
-pattern = re.compile(r'^function\ ([^{}]+)')
-file_content.replace()
+b = re.search(pattern3, file_content)
+aims_name = b.group(1)
+func_name = b.group(2)
 
-pattern = re.compile(r'^function\ ([^{}]+)')
-pattern2 = re.compile(r'\((.+)\)')
-f = pattern.findall(file_content)[0]
-parameter =pattern2.findall(f)[0]
-'{parameter}.macthRun({},{})'
+pattern4 = re.compile(r'function [^\(\)\{\}]+\(([^\(\)\{\}]+)\) +\{')
+c = re.search(pattern4, file_content)
+hook_name = c.group(1)
 
-g = 'plugin_pingOOOOOO(hook)'.replace(r'\((.+)\)','$1')
-g
+
+a = re.sub(r'\.addHook\(([^\(\)]+), ([^\(\)]+)\)',
+           '{0}.macthRun({1},{2},{3},{4},{5})'.format(
+               hook_name,
+               aims_name,
+               func_name,
+               'source',
+               'incoming',
+               '{0}.strict_equality'.format(hook_name)
+           ),
+           file_content
+           )
+pprint(a)

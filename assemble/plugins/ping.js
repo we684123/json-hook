@@ -1,6 +1,4 @@
 function plugin_pingOOOOOO(hook) {
-  // 這個不會被引入
-  // this will not load
   var aims = {
     "and": [{
       'targer': ["message", 'text'],
