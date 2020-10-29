@@ -14,4 +14,4 @@ var incoming = source
 // load_plugins
 
 
-hook.macthRunAllun(source, incoming, false)
+hook.macthRunAll(source, incoming, false)
