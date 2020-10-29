@@ -47,7 +47,7 @@ def assemble(input, plugins_folder, annotation, new_name, hide_folder_name):
                 c = re.search(pattern4, file_content)
                 hook_name = c.group(1)
 
-                a = re.sub(r'\.addHook\(([^\(\)]+), ([^\(\)]+)\)',
+                a = re.sub(hook_name + r'\.addHook\(([^\(\)]+), ([^\(\)]+)\)',
                            '{0}.macthRun({1},{2},{3},{4},{5})'.format(
                                hook_name,
                                aims_name,
@@ -86,31 +86,3 @@ def assemble(input, plugins_folder, annotation, new_name, hide_folder_name):
 
 if __name__ == '__main__':
     assemble()
-
-
-pprint(file_content)
-pattern3 = re.compile(r'\.addHook\(([^\(\)]+), ([^\(\)]+)\)')
-pattern3.findall(file_content)
-
-
-b = re.search(pattern3, file_content)
-aims_name = b.group(1)
-func_name = b.group(2)
-
-pattern4 = re.compile(r'function [^\(\)\{\}]+\(([^\(\)\{\}]+)\) +\{')
-c = re.search(pattern4, file_content)
-hook_name = c.group(1)
-
-
-a = re.sub(r'\.addHook\(([^\(\)]+), ([^\(\)]+)\)',
-           '{0}.macthRun({1},{2},{3},{4},{5})'.format(
-               hook_name,
-               aims_name,
-               func_name,
-               'source',
-               'incoming',
-               '{0}.strict_equality'.format(hook_name)
-           ),
-           file_content
-           )
-pprint(a)
