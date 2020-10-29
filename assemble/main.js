@@ -1,5 +1,5 @@
 const json_hook = require('./hook');
-var hook = new json_hook.json_hook()
+var hook = new json_hook.JsonHook()
 
 var source = {
     "update_id": 910469164,
@@ -8,15 +8,10 @@ var source = {
       "text": "ping"
     }
   }
+var incoming = source
+
 // load_functions
 // load_plugins
 
 
-var incoming = source
-hook.macth_run(source, incoming, false)
-
-
-
-
-
-//
+hook.macthRunAllun(source, incoming, false)
