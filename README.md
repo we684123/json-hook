@@ -434,8 +434,8 @@ ps' 我有順便用 win x64 的版本，有需要可以使用。
 ## todo
  - ~~一個 py or node 可執行的檔案，用來將 plugins 內的檔案全部塞入主程式中。~~    
  - ~~支援 functions 匯入~~    
- - 引入命名風格
- - 新增單 macth run
- - 新增 單 macth run 的組合方式
+ - ~~引入命名風格~~
+ - ~~新增單 macth run~~
+ - ~~新增 單 macth run 的組合方式~~
  - 新增 拖曳檔案轉換的功能
  - 教學影片    
