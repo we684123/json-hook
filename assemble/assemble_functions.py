@@ -5,11 +5,21 @@ import click
 
 
 @click.command()
-@click.option('-i', '--input', 'input', default="./main.js", help='程式本體(main.js)，預設 "./main.js"')
-@click.option('-f', '--functions_folder', 'functions_folder', default="./functions", help='functions 資料夾的位置，預設 "./functions"')
-@click.option('-a', '--annotation', 'annotation', default="// load_functions", help='註解的名稱，預設是 "// load_functions"')
-@click.option('-n', '--new_name', 'new_name', default="main.ass.js", help='新檔案的名稱，預設是 "main.ass.js"')
-@click.option('-h', '--hide_folder_name', 'hide_folder_name', default="hide", help='忽略的資料夾名稱，預設是 "hide"')
+@click.option('-i', '--input', 'input',
+              default="./main.js",
+              help='程式本體(main.js)，預設 "./main.js"')
+@click.option('-f', '--functions_folder', 'functions_folder',
+              default="./functions",
+              help='functions 資料夾的位置，預設 "./functions"')
+@click.option('-a', '--annotation', 'annotation',
+              default="// load_functions",
+              help='註解的名稱，預設是 "// load_functions"')
+@click.option('-n', '--new_name', 'new_name',
+              default="main.ass.js",
+              help='新檔案的名稱，預設是 "main.ass.js"')
+@click.option('-h', '--hide_folder_name', 'hide_folder_name',
+              default="hide",
+              help='忽略的資料夾名稱，預設是 "hide"')
 def assemble(input, functions_folder, annotation, new_name, hide_folder_name):
     # input = './assemble/main.js'
     # plugins_folder = './assemble/plugins'
@@ -46,8 +56,10 @@ def assemble(input, functions_folder, annotation, new_name, hide_folder_name):
         ass = '\n'.join(txts)
         ass2 = main.replace(annotation, ass)
     else:
-        print('input file content have not "{0}", so i can not replace text'.format(
-            annotation))
+        print([
+            f'input file content have not "{annotation}"',
+            ', so i can not replace text'
+        ])
 
     with open(new_name, 'w', encoding='utf-8') as f:
         f.write(ass2)

@@ -22,16 +22,20 @@ export function check_parameter(par: any, from: string) {
     }
   }
 }
+
 // ====================================================================
 // let aims_par = or[0]
 /**
+ * @description (要寫)
  * @param  {any} aims_par
  * @param  {object} source
  * @param  {boolean} strict_equality  if trun , use === , if false, use ==
  * @returns {boolean}
  */
 export function match_par(
-  aims_par: any, source: object, strict_equality?: boolean
+  aims_par: any,
+  source: object,
+  strict_equality?: boolean
 ): boolean[] {
   // console.log(`aims_par = ${aims_par}`);
   // console.log(`source = ${source}`);
@@ -47,6 +51,7 @@ export function match_par(
   // console.log("外層");
   return result
 }
+
 // ====================================================================
 /**
  * @param  {any} iterator
@@ -55,7 +60,9 @@ export function match_par(
  * @returns {boolean}
  */
 export function match_iterator(
-  iterator: any, yn: any, strict_equality?: boolean
+  iterator: any,
+  yn: any,
+  strict_equality?: boolean
 ): boolean {
   for (let i = 0; i < iterator['targer'].length; i++) {
     // var i = 0
@@ -90,6 +97,7 @@ export function match_iterator(
   }
   return true
 }
+
 // ====================================================================
 /**
  * @description 比對看看符不符合規則，符合就執行 function
@@ -99,12 +107,15 @@ export function match_iterator(
  * @returns {boolean}
  */
 export function match(
-  aims: any, source: object, strict_equality?: boolean
+  aims: any,
+  source: object,
+  strict_equality?: boolean
 ): boolean {
+  // 先基礎定義下面4個，順便檢查
   var and = aims['and']
   var or = aims['or']
-  var not_and = aims?.not?.and
-  var not_or = aims?.not?.or
+  var not_and = aims ?.not ?.and
+  var not_or = aims ?.not ?.or
   if (and === undefined && or === undefined) {
     throw "'and' and 'or' at least give one.";
   }
@@ -139,16 +150,16 @@ export function match(
     not_or_list = match_par(not_or, source, strict_equality).map(x => !x);
   }
 
-  var and_list_result = and_list.every(function (item) {
+  var and_list_result = and_list.every(function(item) {
     return item === true
   });
-  var or_list_result = or_list.some(function (item) {
+  var or_list_result = or_list.some(function(item) {
     return item === true
   });
-  var not_and_list_result = not_and_list.every(function (item) {
+  var not_and_list_result = not_and_list.every(function(item) {
     return item === true
   });
-  var not_or_list_result = not_or_list.some(function (item) {
+  var not_or_list_result = not_or_list.some(function(item) {
     return item === true
   });
   var last_result = [
@@ -158,7 +169,7 @@ export function match(
     not_or_list_result
   ]
 
-  return last_result.every(function (item) {
+  return last_result.every(function(item) {
     return item === true
   });
 }

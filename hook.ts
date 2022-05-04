@@ -11,17 +11,22 @@ export class JsonHook {
     this.plugin_re_str = '^plugin'
     this.plugins_folder = './plugins'
     this.match = match
-    this.strict_equality = false
+    this.strict_equality = false  //在 match 時要用 ==(false) 或 ===(true)
   }
+
   /**
-   * @description 綁定 hook條件 及 被hook函式
+   * @description 綁定 hook 條件 及 被 hook 的函式
    * @param  {any} hook_aims 綁定的觸發條件
    * @param  {object} hook_function 滿足觸發條件後要執行的函式
    * @returns void
    */
-  public addHook(hook_aims: any, hook_function: object): void {
+  public addHook(
+    hook_aims: any,
+    hook_function: object
+  ): void {
     this.hooks.push([hook_aims, hook_function])
   }
+
   /**
    * @description 列出以綁定的條件及函式
    * @returns {void}
@@ -34,16 +39,23 @@ export class JsonHook {
       console.log(value);
     }
   }
+
   /**
    * @description 列出以綁定的條件及函式
-   * @param  {object} hook_aims 要被 '觸發條件json' 比對的 '事件json'
-   * @param  {object} hook_function 要被 '觸發條件json' 比對的 '事件json'
+   * @param  {object} hook_aims 綁定的觸發條件
+   * @param  {object} hook_function 滿足觸發條件後要執行的函式
    * @param  {object} source 要被 '觸發條件json' 比對的 '事件json'
    * @param  {any} incoming? 要被傳入 '觸發函式' 的東西，可有可無
    * @param  {boolean} strict_equality? 是否要啟動嚴格比對(全等於)
    * @returns void
    */
-  public macthRun(hook_aims: object, hook_function: any, source: object, incoming?: any, strict_equality?: boolean): void {
+  public macthRun(
+    hook_aims: object,
+    hook_function: any,
+    source: object,
+    incoming?: any,
+    strict_equality?: boolean
+  ): void {
     strict_equality = strict_equality || this.strict_equality
     incoming = incoming || undefined
     if (match(hook_aims, source, strict_equality)) { // 條件符合，執行!
@@ -58,7 +70,11 @@ export class JsonHook {
    * @param  {boolean} strict_equality? 是否要啟動嚴格比對(全等於)
    * @returns void
    */
-  public macthRunAll(source: object, incoming?: any, strict_equality?: boolean): void {
+  public macthRunAll(
+    source: object,
+    incoming?: any,
+    strict_equality?: boolean
+  ): void {
     for (let [hook_aims, hook_function] of this.hooks) {
       if (match(hook_aims, source, strict_equality)) { // 條件符合，執行!
         hook_function.call(null, incoming)
@@ -73,7 +89,11 @@ export class JsonHook {
    * @param  {string} hook_name? hook 的名稱
    * @returns void
    */
-  public loadGoogleAppsScriptPlugin(_this: any, hook: any, hook_name: string): void {
+  public loadGoogleAppsScriptPlugin(
+    _this: any,
+    hook: any,
+    hook_name: string
+  ): void {
     hook // ㄜ... 對! 沒有用~ 只是不想看到 ts 一直提醒我沒有用 (๑-﹏-๑)
     for (var key in _this) {
       if (typeof _this[key] == "function") {
@@ -93,7 +113,10 @@ export class JsonHook {
    * @param  {string} hook_name? hook 的名稱
    * @returns void
    */
-  public loadNodejsPlugin(hook: any, hook_name: string): void {
+  public loadNodejsPlugin(
+    hook: any,
+    hook_name: string
+  ): void {
     hook // ㄜ... 對! 沒有用~ 只是不想看到 ts 一直提醒我沒有用 (๑-﹏-๑)
     // @ts-ignore
     const path = require('path');
