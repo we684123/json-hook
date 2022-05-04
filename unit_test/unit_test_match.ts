@@ -1,7 +1,8 @@
 // this test is use Deno !
+// deno run .\unit_test\unit_test_match.ts
 
 // @ts-ignore
-import { match } from './match.ts'
+import { match } from '../match.ts'
 
 let i = 0
 var source = {
