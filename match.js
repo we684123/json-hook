@@ -12,16 +12,16 @@ function check_parameter(par, from) {
         // i = 0
         var par_i = par[i];
         if (par_i['targer'] == undefined) {
-            throw "'" + from + "' Array " + i + " targer is miss";
+            throw "'".concat(from, "' Array ").concat(i, " targer is miss");
         }
         if (par_i['value'] == undefined) {
-            throw from + " " + i + " value is miss";
+            throw "".concat(from, " ").concat(i, " value is miss");
         }
         if (par_i['only_exist'] == undefined) {
-            throw from + " " + i + " only_exist is miss";
+            throw "".concat(from, " ").concat(i, " only_exist is miss");
         }
         if (par_i['use_re'] == undefined) {
-            throw from + " " + i + " use_re is miss";
+            throw "".concat(from, " ").concat(i, " use_re is miss");
         }
     }
 }
@@ -29,6 +29,7 @@ exports.check_parameter = check_parameter;
 // ====================================================================
 // let aims_par = or[0]
 /**
+ * @description (要寫)
  * @param  {any} aims_par
  * @param  {object} source
  * @param  {boolean} strict_equality  if trun , use === , if false, use ==
@@ -104,6 +105,7 @@ exports.match_iterator = match_iterator;
  */
 function match(aims, source, strict_equality) {
     var _a, _b;
+    // 先基礎定義下面4個，順便檢查
     var and = aims['and'];
     var or = aims['or'];
     var not_and = (_a = aims === null || aims === void 0 ? void 0 : aims.not) === null || _a === void 0 ? void 0 : _a.and;

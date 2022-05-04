@@ -6,7 +6,7 @@ export declare class JsonHook {
     strict_equality: boolean;
     constructor();
     /**
-     * @description 綁定 hook條件 及 被hook函式
+     * @description 綁定 hook 條件 及 被 hook 的函式
      * @param  {any} hook_aims 綁定的觸發條件
      * @param  {object} hook_function 滿足觸發條件後要執行的函式
      * @returns void
@@ -19,8 +19,8 @@ export declare class JsonHook {
     listHook(): void;
     /**
      * @description 列出以綁定的條件及函式
-     * @param  {object} hook_aims 要被 '觸發條件json' 比對的 '事件json'
-     * @param  {object} hook_function 要被 '觸發條件json' 比對的 '事件json'
+     * @param  {object} hook_aims 綁定的觸發條件
+     * @param  {object} hook_function 滿足觸發條件後要執行的函式
      * @param  {object} source 要被 '觸發條件json' 比對的 '事件json'
      * @param  {any} incoming? 要被傳入 '觸發函式' 的東西，可有可無
      * @param  {boolean} strict_equality? 是否要啟動嚴格比對(全等於)

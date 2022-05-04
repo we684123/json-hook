@@ -5,6 +5,7 @@
  */
 export declare function check_parameter(par: any, from: string): void;
 /**
+ * @description (要寫)
  * @param  {any} aims_par
  * @param  {object} source
  * @param  {boolean} strict_equality  if trun , use === , if false, use ==

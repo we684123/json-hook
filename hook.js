@@ -8,10 +8,10 @@ var JsonHook = /** @class */ (function () {
         this.plugin_re_str = '^plugin';
         this.plugins_folder = './plugins';
         this.match = match_1.match;
-        this.strict_equality = false;
+        this.strict_equality = false; //在 match 時要用 ==(false) 或 ===(true)
     }
     /**
-     * @description 綁定 hook條件 及 被hook函式
+     * @description 綁定 hook 條件 及 被 hook 的函式
      * @param  {any} hook_aims 綁定的觸發條件
      * @param  {object} hook_function 滿足觸發條件後要執行的函式
      * @returns void
@@ -34,8 +34,8 @@ var JsonHook = /** @class */ (function () {
     };
     /**
      * @description 列出以綁定的條件及函式
-     * @param  {object} hook_aims 要被 '觸發條件json' 比對的 '事件json'
-     * @param  {object} hook_function 要被 '觸發條件json' 比對的 '事件json'
+     * @param  {object} hook_aims 綁定的觸發條件
+     * @param  {object} hook_function 滿足觸發條件後要執行的函式
      * @param  {object} source 要被 '觸發條件json' 比對的 '事件json'
      * @param  {any} incoming? 要被傳入 '觸發函式' 的東西，可有可無
      * @param  {boolean} strict_equality? 是否要啟動嚴格比對(全等於)
@@ -44,7 +44,7 @@ var JsonHook = /** @class */ (function () {
     JsonHook.prototype.macthRun = function (hook_aims, hook_function, source, incoming, strict_equality) {
         strict_equality = strict_equality || this.strict_equality;
         incoming = incoming || undefined;
-        if (match_1.match(hook_aims, source, strict_equality)) { // 條件符合，執行!
+        if ((0, match_1.match)(hook_aims, source, strict_equality)) { // 條件符合，執行!
             hook_function.call(null, incoming);
         }
     };
@@ -58,7 +58,7 @@ var JsonHook = /** @class */ (function () {
     JsonHook.prototype.macthRunAll = function (source, incoming, strict_equality) {
         for (var _i = 0, _a = this.hooks; _i < _a.length; _i++) {
             var _b = _a[_i], hook_aims = _b[0], hook_function = _b[1];
-            if (match_1.match(hook_aims, source, strict_equality)) { // 條件符合，執行!
+            if ((0, match_1.match)(hook_aims, source, strict_equality)) { // 條件符合，執行!
                 hook_function.call(null, incoming);
             }
         }
@@ -76,8 +76,8 @@ var JsonHook = /** @class */ (function () {
             if (typeof _this[key] == "function") {
                 var regex = RegExp(String(this.plugin_re_str), 'g');
                 if (!!String(key).match(regex)) {
-                    var cmd = "_this." + key + "(" + hook_name + ")";
-                    eval("var " + hook_name + " = hook");
+                    var cmd = "_this.".concat(key, "(").concat(hook_name, ")");
+                    eval("var ".concat(hook_name, " = hook"));
                     eval(cmd);
                 }
             }
