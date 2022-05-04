@@ -144,12 +144,31 @@ class JsonHook {
   }
 }
 
+
+interface aims_par_interface {
+  'targer':string[],
+  'value':any,
+  'only_exist':boolean,
+  'use_re':boolean,
+}
+
+interface aims_not_interface {
+  'and'?:aims_par_interface[],
+  'or'?:aims_par_interface[]
+}
+
+interface aims_object_interface {
+  'and'?:aims_par_interface[],
+  'or'?:aims_par_interface[],
+  'not'?:aims_not_interface,
+}
+
 /**
  * @description 確認格式正確用，不會回傳任何值
- * @param  {any} par
+ * @param  {aims_par_interface[]} par
  * @param  {string} from
  */
-function check_parameter(par: any, from: string) {
+function check_parameter(par: aims_par_interface[], from: string) {
   //這裡確認 targer value... 都在
   for (var i = 0; i < par.length; i++) {
     // i = 0
@@ -173,13 +192,13 @@ function check_parameter(par: any, from: string) {
 // let aims_par = or[0]
 /**
  * @description (要寫)
- * @param  {any} aims_par
+ * @param  {aims_par_interface} aims_par
  * @param  {object} source
  * @param  {boolean} strict_equality  if trun , use === , if false, use ==
  * @returns {boolean}
  */
 function match_par(
-  aims_par: any,
+  aims_par: aims_par_interface,
   source: object,
   strict_equality?: boolean
 ): boolean[] {
@@ -189,7 +208,8 @@ function match_par(
   let result = []
   // var iterator = aims_par[1]
   for (const iterator of aims_par) {
-    // console.log(`iterator = ${iterator}`);
+    console.log(`match_par iterator`);
+    console.log(`iterator = ${iterator}`);
     let yn = source
     var rt = match_iterator(iterator, yn, strict_equality)
     result.push(rt)
@@ -214,27 +234,27 @@ function match_iterator(
     // var i = 0
     // var i = 1
     // var i = 2
-    console.log(`i = ${i}`);
+    // console.log(`i = ${i}`);
     yn = yn[iterator['targer'][i]]
-    console.log(`yn = ${yn}`);
+    // console.log(`yn = ${yn}`);
     if (yn == undefined) {
       return false
     }
     if ((i + 1) == iterator['targer'].length) { // targer的最後一個
-      console.log("(i + 1) == iterator['targer'].length")
+      // console.log("(i + 1) == iterator['targer'].length")
       if (!iterator['only_exist']) { // only_exist = false
-        console.log(`iterator['value'] = ${iterator['value']}`);
+        // console.log(`iterator['value'] = ${iterator['value']}`);
         if (iterator['use_re']) {
-          console.log(`iterator['use_re'] = ${String(iterator['use_re'])}`);
-          console.log(`iterator['value'] = ${String(iterator['value'])}`);
+          // console.log(`iterator['use_re'] = ${String(iterator['use_re'])}`);
+          // console.log(`iterator['value'] = ${String(iterator['value'])}`);
           let regex = RegExp(String(iterator['value']), 'g')
           return !!String(yn).match(regex)
         } else {
           if (strict_equality) {
-            console.log(yn === iterator['value']);
+            // console.log(yn === iterator['value']);
             return yn === iterator['value']
           } else {
-            console.log(yn == iterator['value']);
+            // console.log(yn == iterator['value']);
             return yn == iterator['value']
           }
         }
@@ -247,13 +267,13 @@ function match_iterator(
 // ====================================================================
 /**
  * @description 比對看看符不符合規則，符合就執行 function
- * @param  {any} aims match json
+ * @param  {aims_object_interface} aims match json
  * @param  {object} source source json
  * @param  {boolean} strict_equality  if trun , use === , if false, use ==
  * @returns {boolean}
  */
 function match(
-  aims: any,
+  aims: aims_object_interface,
   source: object,
   strict_equality?: boolean
 ): boolean {

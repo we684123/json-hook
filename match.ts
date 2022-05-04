@@ -1,9 +1,27 @@
+interface aims_par_interface {
+  'targer':string[],
+  'value':any,
+  'only_exist':boolean,
+  'use_re':boolean,
+}
+
+interface aims_not_interface {
+  'and'?:aims_par_interface[],
+  'or'?:aims_par_interface[]
+}
+
+interface aims_object_interface {
+  'and'?:aims_par_interface[],
+  'or'?:aims_par_interface[],
+  'not'?:aims_not_interface,
+}
+
 /**
  * @description 確認格式正確用，不會回傳任何值
- * @param  {any} par
+ * @param  {aims_par_interface[]} par
  * @param  {string} from
  */
-export function check_parameter(par: any, from: string) {
+export function check_parameter(par: aims_par_interface[], from: string) {
   //這裡確認 targer value... 都在
   for (var i = 0; i < par.length; i++) {
     // i = 0
@@ -27,13 +45,13 @@ export function check_parameter(par: any, from: string) {
 // let aims_par = or[0]
 /**
  * @description (要寫)
- * @param  {any} aims_par
+ * @param  {aims_par_interface} aims_par
  * @param  {object} source
  * @param  {boolean} strict_equality  if trun , use === , if false, use ==
  * @returns {boolean}
  */
 export function match_par(
-  aims_par: any,
+  aims_par: aims_par_interface,
   source: object,
   strict_equality?: boolean
 ): boolean[] {
@@ -43,7 +61,8 @@ export function match_par(
   let result = []
   // var iterator = aims_par[1]
   for (const iterator of aims_par) {
-    // console.log(`iterator = ${iterator}`);
+    console.log(`match_par iterator`);
+    console.log(`iterator = ${iterator}`);
     let yn = source
     var rt = match_iterator(iterator, yn, strict_equality)
     result.push(rt)
@@ -101,13 +120,13 @@ export function match_iterator(
 // ====================================================================
 /**
  * @description 比對看看符不符合規則，符合就執行 function
- * @param  {any} aims match json
+ * @param  {aims_object_interface} aims match json
  * @param  {object} source source json
  * @param  {boolean} strict_equality  if trun , use === , if false, use ==
  * @returns {boolean}
  */
 export function match(
-  aims: any,
+  aims: aims_object_interface,
   source: object,
   strict_equality?: boolean
 ): boolean {
