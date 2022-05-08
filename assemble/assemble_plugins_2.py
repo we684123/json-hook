@@ -58,7 +58,7 @@ def assemble(input, plugins_folder, annotation, new_name, hide_folder_name):
                 hook_name = c.group(1)
 
                 a = re.sub(hook_name + r'\.addHook\(([^\(\)]+), ([^\(\)]+)\)',
-                           '{0}.macthRun({1},{2},{3},{4},{5})'.format(
+                           '{0}.matchRun({1},{2},{3},{4},{5})'.format(
                                hook_name,
                                aims_name,
                                func_name,

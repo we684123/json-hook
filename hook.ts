@@ -49,7 +49,7 @@ export class JsonHook {
    * @param  {boolean} strict_equality? 是否要啟動嚴格比對(全等於)
    * @returns void
    */
-  public macthRun(
+  public matchRun(
     hook_aims: object,
     hook_function: any,
     source: object,
@@ -64,13 +64,13 @@ export class JsonHook {
   }
 
   /**
-   * @description loop macth all hook
+   * @description loop match all hook
    * @param  {object} source 要被 '觸發條件json' 比對的 '事件json'
    * @param  {any} incoming? 要被傳入 '觸發函式' 的東西，可有可無
    * @param  {boolean} strict_equality? 是否要啟動嚴格比對(全等於)
    * @returns void
    */
-  public macthRunAll(
+  public matchRunAll(
     source: object,
     incoming?: any,
     strict_equality?: boolean
