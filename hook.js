@@ -41,7 +41,7 @@ var JsonHook = /** @class */ (function () {
      * @param  {boolean} strict_equality? 是否要啟動嚴格比對(全等於)
      * @returns void
      */
-    JsonHook.prototype.macthRun = function (hook_aims, hook_function, source, incoming, strict_equality) {
+    JsonHook.prototype.matchRun = function (hook_aims, hook_function, source, incoming, strict_equality) {
         strict_equality = strict_equality || this.strict_equality;
         incoming = incoming || undefined;
         if ((0, match_1.match)(hook_aims, source, strict_equality)) { // 條件符合，執行!
@@ -49,13 +49,13 @@ var JsonHook = /** @class */ (function () {
         }
     };
     /**
-     * @description loop macth all hook
+     * @description loop match all hook
      * @param  {object} source 要被 '觸發條件json' 比對的 '事件json'
      * @param  {any} incoming? 要被傳入 '觸發函式' 的東西，可有可無
      * @param  {boolean} strict_equality? 是否要啟動嚴格比對(全等於)
      * @returns void
      */
-    JsonHook.prototype.macthRunAll = function (source, incoming, strict_equality) {
+    JsonHook.prototype.matchRunAll = function (source, incoming, strict_equality) {
         for (var _i = 0, _a = this.hooks; _i < _a.length; _i++) {
             var _b = _a[_i], hook_aims = _b[0], hook_function = _b[1];
             if ((0, match_1.match)(hook_aims, source, strict_equality)) { // 條件符合，執行!

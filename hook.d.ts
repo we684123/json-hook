@@ -26,15 +26,15 @@ export declare class JsonHook {
      * @param  {boolean} strict_equality? 是否要啟動嚴格比對(全等於)
      * @returns void
      */
-    macthRun(hook_aims: object, hook_function: any, source: object, incoming?: any, strict_equality?: boolean): void;
+    matchRun(hook_aims: object, hook_function: any, source: object, incoming?: any, strict_equality?: boolean): void;
     /**
-     * @description loop macth all hook
+     * @description loop match all hook
      * @param  {object} source 要被 '觸發條件json' 比對的 '事件json'
      * @param  {any} incoming? 要被傳入 '觸發函式' 的東西，可有可無
      * @param  {boolean} strict_equality? 是否要啟動嚴格比對(全等於)
      * @returns void
      */
-    macthRunAll(source: object, incoming?: any, strict_equality?: boolean): void;
+    matchRunAll(source: object, incoming?: any, strict_equality?: boolean): void;
     /**
      * @description ⚠️這個只能在 google apps script 上執行⚠️, load Google Apps Script all plugins
      * @param  {any} _this 直接傳 Google Apps Script 的 this 就好
