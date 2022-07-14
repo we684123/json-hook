@@ -25,7 +25,7 @@ I originally wanted to call json-hook, but somebody got the first step. Orz...
 -> "程式庫"  
 -> 將 `1lfFZa5p7bjHeYIQ0iFwKaE5HnS3ypK2vRVuZaonnXTQLzc0dZBcgeepO` 貼上輸入框  
 -> "新增"  
--> 選擇最後版本(記得阿 不然儲存不了)  
+-> 選擇第4個版本(記得阿 不然儲存不了)  
 -> "儲存"~    
 
 Open Script Editor.  
@@ -33,7 +33,7 @@ Open Script Editor.
 -> Library  
 -> Paste Script ID `1lfFZa5p7bjHeYIQ0iFwKaE5HnS3ypK2vRVuZaonnXTQLzc0dZBcgeepO` to box  
 -> Add library  
--> select lastest version and save    
+-> select version 4 and save    
 
 * * *
 
