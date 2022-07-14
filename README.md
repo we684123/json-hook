@@ -43,20 +43,20 @@ Open Script Editor.
 
 ```javascript
 const json_hook = require('json-hook-trigger');
-var hook = new json_hook.json_hook()
+var hook = new json_hook.JsonHook()
 ```
 
 ### import in TypeScript
 
 ```javascript
 import {json_hook} from 'json-hook-trigger'
-var hook = new json_hook()
+var hook = new JsonHook()
 ```
 
 ### import in Google Apps Script
 
 ```javascript
-var hook = new jsonhook.json_hook()
+var hook = new jsonhook.JsonHook()
 // 'jsonhook' is follow "Identifier"
 ```
 
@@ -98,7 +98,7 @@ function ping(incoming) {
 }
 hook.addHook(aims, ping)
 var incoming = source
-hook.macth_run(source,incoming,false) // get ping time = 1594795274
+hook.matchRunAll(source,incoming,false) // get ping time = 1594795274
 ```
 
 * * *
