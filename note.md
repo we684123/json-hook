@@ -26,3 +26,5 @@
 - ReadMe 有錯字 要重寫 加QA
 
 - 影片
+
+- 編譯要自動註解掉 loadNodejsPlugin、loadGoogleAppsScriptPlugin
