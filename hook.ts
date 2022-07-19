@@ -5,6 +5,8 @@ export class JsonHook {
   plugins_folder: string
   match: any
   strict_equality: boolean
+  ignore_load_plugin_error: boolean
+  load_plugin_log: boolean
 
   constructor() {
     this.hooks = []
@@ -12,6 +14,8 @@ export class JsonHook {
     this.plugins_folder = './plugins'
     this.match = match
     this.strict_equality = false  //在 match 時要用 ==(false) 或 ===(true)
+    this.ignore_load_plugin_error = false
+    this.load_plugin_log = true
   }
 
   /**
@@ -129,18 +133,61 @@ export class JsonHook {
 
     const file_name_re = RegExp('.+\.(ts|js|gs)$', 'g')
     const get_plugin_function_name_re = RegExp('^function\ ([^{}]+)', 'g')
+    let ignore_load_plugin_error = this.ignore_load_plugin_error
+    let load_plugin_log = this.load_plugin_log
 
-    // @ts-ignore
-    var files = fs.readdirSync(directoryPath);
-    files.forEach(function(file: any) {
-      if (!!String(file).match(file_name_re)) {
-        // @ts-ignore
-        var data_str = fs.readFileSync("./" + plugins_folder + "/" + file).toString();
-        var i = data_str.match(get_plugin_function_name_re);
-        var j = i[0].replace('function ', '');
-        // 載入 plugin function 內容
-        eval(data_str + '\n' + j.replace('hook', hook_name));
-      }
-    })
+
+    var list: any[] = [];
+    function listFile(dir: string) {
+      // 感謝 luffy5459
+      // https://blog.csdn.net/feinifi/article/details/106109495
+      var arr = fs.readdirSync(dir);
+      arr.forEach(function(item: any) {
+        var fullpath = path.join(dir, item);
+        var stats = fs.statSync(fullpath);
+        if (stats.isDirectory()) {
+          listFile(fullpath);
+        } else {
+          list.push(fullpath);
+
+          if (!!String(fullpath).match(file_name_re)) {
+            if (load_plugin_log) {
+              console.log(fullpath);
+            }
+            // @ts-ignore
+            var data_str = fs.readFileSync(fullpath).toString();
+            var i = data_str.match(get_plugin_function_name_re);
+            var j = i[0].replace('function ', '');
+            // 載入 plugin function 內容
+            try {
+              eval(data_str + '\n' + j.replace('hook', hook_name));
+            } catch (error) {
+              if (load_plugin_log) {
+                console.error('\x1B[31m%s\x1B[0m', `Loading plugin error for ${fullpath}`);
+                console.error(error);
+              }
+              if (!ignore_load_plugin_error) {
+                throw new Error(`Loading plugin error, plz check log`)
+              }
+            }
+          }
+        }
+      });
+      return list;
+    }
+    listFile(directoryPath);
+
+    // // @ts-ignore
+    // var files = fs.readdirSync(directoryPath);
+    // files.forEach(function (file: any) {
+    //   if (!!String(file).match(file_name_re)) {
+    //     // @ts-ignore
+    //     var data_str = fs.readFileSync("./" + plugins_folder + "/" + file).toString();
+    //     var i = data_str.match(get_plugin_function_name_re);
+    //     var j = i[0].replace('function ', '');
+    //     // 載入 plugin function 內容
+    //     eval(data_str + '\n' + j.replace('hook', hook_name));
+    //   }
+    // })
   }
 }

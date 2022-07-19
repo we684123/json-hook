@@ -4,6 +4,8 @@ export declare class JsonHook {
     plugins_folder: string;
     match: any;
     strict_equality: boolean;
+    ignore_load_plugin_error: boolean;
+    load_plugin_log: boolean;
     constructor();
     /**
      * @description 綁定 hook 條件 及 被 hook 的函式
