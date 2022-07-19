@@ -125,7 +125,7 @@ export class JsonHook {
 
     const plugins_folder = this.plugins_folder
     // @ts-ignore
-    const directoryPath = path.join(__dirname, plugins_folder);
+    const directoryPath = path.join(process.cwd(), plugins_folder);
 
     const file_name_re = RegExp('.+\.(ts|js|gs)$', 'g')
     const get_plugin_function_name_re = RegExp('^function\ ([^{}]+)', 'g')
