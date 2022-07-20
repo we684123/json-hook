@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+var fs = require("fs");
 const path = require("path");
 const commander = require("commander");
 
@@ -45,6 +46,29 @@ program
 console.log(`optsKeys: ${Object.keys(program.opts())}`);
 console.log(`optsValues: ${Object.values(program.opts())}`);
 
+function list_tree_to_do(dir, hide_folder_name, func, arg) {
+  var list = [];
+  var arr = fs.readdirSync(dir);
+  arr.forEach(function(item) {
+    var fullpath = path.join(dir, item);
+    var stats = fs.statSync(fullpath);
+    if (stats.isDirectory()) {
+      // 不是"隱藏內容"的資料夾名稱就遞迴
+      if (fullpath.split(path.sep).pop() != hide_folder_name) {
+        list_tree_to_do(fullpath);
+      }
+    } else {
+      // 是檔案就處理
+      list.push(fullpath);
+      var data_str = fs.readFileSync(fullpath).toString();
+      func.call(arg);
+    }
+  });
+  return list;
+}
+
+function assemble_plugins(arg) {}
+
 function assemble() {
   const opts = program.opts();
 
@@ -71,8 +95,13 @@ function assemble() {
   );
 
   // 開始組合
-
+  assemble_plugins(
+    input_plugins_folder_path,
+    hide_folder_name,
+    list_tree_to_do
+  );
 }
 assemble();
+
 
 //
