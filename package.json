@@ -22,5 +22,11 @@
   "bugs": {
     "url": "https://github.com/we684123/json-hook/issues"
   },
-  "homepage": "https://github.com/we684123/json-hook#readme"
+  "homepage": "https://github.com/we684123/json-hook#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "eslint": "^8.20.0",
+    "prettier": "2.7.1"
+  }
 }
