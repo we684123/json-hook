@@ -27,7 +27,6 @@ def assemble(input, functions_folder, annotation, new_name, hide_folder_name):
     # new_name = './assemble/main.ass.js'
     # hide_folder_name = 'hide'
     functions_folder = Path.cwd().joinpath(Path(functions_folder))
-    pattern = re.compile(r'^function\ ([^{}]+)')
     txts = []
     txts.insert(0, annotation)
 
