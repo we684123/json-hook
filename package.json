@@ -5,7 +5,8 @@
   "main": "hook.js",
   "types": "hook.d.ts",
   "scripts": {
-    "test": "deno run ./unit_test/unit_test_match.ts"
+    "test": "jest",
+    "deno_test": "deno run ./unit_test/unit_test_match.ts"
   },
   "repository": {
     "type": "git",
