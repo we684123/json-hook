@@ -13,6 +13,6 @@ var incoming = source
 // 下面這2個是留給 ./(assemble_plugins + assemble_functions) 用的
 // load_functions
 // load_plugins
-
-
+hook.loadNodejsPlugin(hook,"hook")
+hook.loadGoogleAppsScriptPlugin(hook,"hook")
 hook.matchRunAll(source, incoming, false)
