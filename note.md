@@ -1,11 +1,11 @@
 # 待做
 - targer → target
 
-- python 環境錨定
+- ~~python 環境錨定~~
 
-- assemble 系列要能拖曳
+- ~~assemble 系列要能拖曳~~ (不做了)
 
-- gas 流程重建
+- gas 流程重建 → 到時候寫一份專門的RM
 
 - 測試涵蓋 hook
 
@@ -17,7 +17,7 @@
 
 - aims_par的use_re、only_exist改預設值? (有預設值的話綁在hook內?)
 
-- example 資料夾
+- ~~example 資料夾~~
 
 - 裝飾器模式？
 
@@ -27,4 +27,10 @@
 
 - 影片
 
-- 編譯要自動註解掉 loadNodejsPlugin、loadGoogleAppsScriptPlugin
+- ~~編譯要自動註解掉 loadNodejsPlugin、loadGoogleAppsScriptPlugin~~
+
+- 用 jest 框架重寫 test
+
+- 重構 hook 跟 match (eslint)
+
+-
