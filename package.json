@@ -1,6 +1,6 @@
 {
   "name": "json-hook-trigger",
-  "version": "2.0.0-beta.0",
+  "version": "2.0.0-alpha.1",
   "description": "一個分析 json 內容符不符合條件，符合的話就呼叫對應 function 的 hook ",
   "main": "hook.js",
   "types": "hook.d.ts",
