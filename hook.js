@@ -77,7 +77,7 @@ var JsonHook = /** @class */ (function () {
         for (var key in _this) {
             if (typeof _this[key] == "function") {
                 var regex = RegExp(String(this.plugin_re_str), 'g');
-                if (!!String(key).match(regex)) {
+                if (String(key).match(regex)) {
                     var cmd = "_this.".concat(key, "(").concat(hook_name, ")");
                     eval("var ".concat(hook_name, " = hook"));
                     eval(cmd);
@@ -93,12 +93,9 @@ var JsonHook = /** @class */ (function () {
      */
     JsonHook.prototype.loadNodejsPlugin = function (hook, hook_name) {
         hook; // ㄜ... 對! 沒有用~ 只是不想看到 ts 一直提醒我沒有用 (๑-﹏-๑)
-        // @ts-ignore
         var path = require('path');
-        // @ts-ignore
         var fs = require('fs');
         var plugins_folder = this.plugins_folder;
-        // @ts-ignore
         var directoryPath = path.join(process.cwd(), plugins_folder);
         var file_name_re = RegExp('.+\.(ts|js|gs)$', 'g');
         var get_plugin_function_name_re = RegExp('^function\ ([^{}]+)', 'g');
@@ -117,11 +114,10 @@ var JsonHook = /** @class */ (function () {
                 }
                 else {
                     list.push(fullpath);
-                    if (!!String(fullpath).match(file_name_re)) {
+                    if (String(fullpath).match(file_name_re)) {
                         if (load_plugin_log) {
                             console.log(fullpath);
                         }
-                        // @ts-ignore
                         var data_str = fs.readFileSync(fullpath).toString();
                         var i = data_str.match(get_plugin_function_name_re);
                         var j = i[0].replace('function ', '');
@@ -144,18 +140,6 @@ var JsonHook = /** @class */ (function () {
             return list;
         }
         listFile(directoryPath);
-        // // @ts-ignore
-        // var files = fs.readdirSync(directoryPath);
-        // files.forEach(function (file: any) {
-        //   if (!!String(file).match(file_name_re)) {
-        //     // @ts-ignore
-        //     var data_str = fs.readFileSync("./" + plugins_folder + "/" + file).toString();
-        //     var i = data_str.match(get_plugin_function_name_re);
-        //     var j = i[0].replace('function ', '');
-        //     // 載入 plugin function 內容
-        //     eval(data_str + '\n' + j.replace('hook', hook_name));
-        //   }
-        // })
     };
     return JsonHook;
 }());
